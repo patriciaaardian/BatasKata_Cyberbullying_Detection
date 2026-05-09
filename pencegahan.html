@@ -154,14 +154,7 @@
 
     
   
-    @media (max-width: 840px) {
-      .pillar-grid { grid-template-columns: 1fr; }
-      .tips-row { grid-template-columns: 1fr; }
-      .progress-bar-wrap { padding: 24px; }
-      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
-      .cta-buttons { width: 100%; }
-      .cta-btn { flex: 1; text-align: center; }
-    }
+    
       /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
     .nav-link {
@@ -210,26 +203,8 @@
     .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
     .mobile-nav-link.active { color: var(--accent); }
   
-    @media (max-width: 840px) {
-      .page { padding: 0 20px 64px; }
-      .header-strip { padding: 13px 20px; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
-      .hero-desc { margin-left: 0; max-width: 100%; }
-      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
-      .section { margin-top: 44px; }
-    }
-    @media (max-width: 840px) {
-      .pillar-grid { grid-template-columns: 1fr; }
-      .tips-row { grid-template-columns: 1fr; }
-      .progress-bar-wrap { padding: 24px 20px; }
-      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
-      .cta-buttons { width: 100%; display: flex; }
-      .cta-btn { flex: 1; text-align: center; font-size: 0.65rem; padding: 12px 10px; }
-      .checklist-cat-header { padding: 16px 20px; }
-      .checklist-item { padding: 12px 20px; }
-    }
+    
+    
   
     /* Light mode: panel-bg sections need light text */
     .checklist-cat-header { color: var(--panel-text); }
@@ -240,6 +215,40 @@
     /* resource cards stay dark */
     .resource-card { background: var(--panel-bg); }
     .resource-name { color: var(--panel-text) !important; }
+  
+    /* ── GLOBAL OVERFLOW FIX ── */
+    html, body { overflow-x: hidden; max-width: 100%; }
+    .page { box-sizing: border-box; width: 100%; }
+    /* ── PANEL TEXT FIXES (light + dark mode) ── */
+    .checklist-cat-header { color: #f0ece3; }
+    .cat-name { color: #f0ece3 !important; }
+    .cat-icon { color: #f0ece3; }
+    .cat-count { color: rgba(240,236,227,0.55) !important; }
+    .checklist-cat-header:hover { background: rgba(255,85,51,0.18) !important; }
+    .progress-title { color: #f0ece3 !important; }
+    .progress-count { color: rgba(240,236,227,0.55) !important; }
+    .progress-note { color: rgba(240,236,227,0.4) !important; }
+    .progress-track { background: rgba(255,255,255,0.12) !important; }
+  
+    @media (max-width: 840px) {
+      .page { padding: 0 20px 64px; }
+      .header-strip { padding: 13px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
+      .hero-desc { margin-left: 0; max-width: 100%; }
+      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+      .section { margin-top: 44px; }
+      .pillar-grid { grid-template-columns: 1fr; }
+      .tips-row { grid-template-columns: 1fr; }
+      .progress-bar-wrap { padding: 24px 20px; }
+      .cta-row { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; }
+      .cta-buttons { width: 100%; display: flex; flex-direction: column; gap: 0; }
+      .cta-btn { width: 100%; text-align: center; font-size: 0.65rem; padding: 13px 10px; border-right: 1px solid var(--border) !important; border-bottom: none; }
+      .cta-btn + .cta-btn { border-top: none; border-left: 1px solid var(--border); }
+      .checklist-cat-header { padding: 16px 20px; }
+      .checklist-item { padding: 12px 20px; }
+    }
   </style>
 </head>
 <body>
