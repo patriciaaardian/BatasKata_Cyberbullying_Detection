@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BatasKata — Panduan Respons</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0d0d0d; --paper: #f0ece3; --paper2: #e8e3d8;
+      --accent: #e63c1e; --accent2: #1a1aff;
+      --accent-glow: rgba(230,60,30,0.32); --muted: #7a7570;
+      --border: rgba(13,13,13,0.2); --card-bg: rgba(255,255,255,0.5);
+      --panel-bg: #111111; --panel-text: #f0ece3;
+      --toggle-track: #d4cfc5; --hero-stroke: #0d0d0d;
+    }
+    [data-theme="dark"] {
+      --ink: #ede9df; --paper: #0c0c0c; --paper2: #141414;
+      --accent: #ff5533; --accent2: #5555ff;
+      --accent-glow: rgba(255,85,51,0.38); --muted: #5a5a5a;
+      --border: rgba(255,255,255,0.1); --card-bg: rgba(255,255,255,0.035);
+      --panel-bg: rgba(255,255,255,0.055); --panel-text: #ede9df;
+      --toggle-track: #252525; --hero-stroke: #ede9df;
+    }
+    html { background: var(--paper); }
+    body { font-family: 'Space Mono', monospace; background: var(--paper); color: var(--ink); min-height: 100vh; overflow-x: hidden; transition: background 0.45s, color 0.45s; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+    body::after { content: ''; position: fixed; inset: 0; background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px); background-size: 32px 32px; opacity: 0.04; pointer-events: none; z-index: 0; }
+
+    .header-strip { position: sticky; top: 0; z-index: 200; border-bottom: 1px solid var(--border); padding: 13px 48px; display: flex; align-items: center; justify-content: space-between; background: var(--paper); backdrop-filter: blur(16px); transition: background 0.45s, border-color 0.45s; }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.1rem; letter-spacing: -0.03em; text-decoration: none; color: var(--ink); }
+    .logo span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links { display: flex; gap: 0; }
+    .nav-link { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-right: none; transition: color 0.25s, background 0.25s; }
+    .nav-link:last-child { border-right: 1px solid var(--border); }
+    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .nav-link.active { color: var(--accent); border-color: var(--accent); background: rgba(230,60,30,0.06); }
+    .theme-toggle { width: 46px; height: 26px; background: var(--toggle-track); border: 1px solid var(--border); border-radius: 13px; cursor: pointer; position: relative; transition: background 0.35s; flex-shrink: 0; }
+    .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    [data-theme="dark"] .theme-toggle::after { transform: translateX(20px); }
+    .t-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 10px; pointer-events: none; }
+    .t-icon.sun { left: 6px; opacity: 1; } .t-icon.moon { right: 5px; opacity: 0.35; }
+    [data-theme="dark"] .t-icon.sun { opacity: 0.3; } [data-theme="dark"] .t-icon.moon { opacity: 1; }
+
+    .page { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 48px 100px; }
+
+    .hero { padding: 68px 0 48px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+    .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--accent); }
+    .hero-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 0.9; letter-spacing: -0.05em; color: var(--ink); }
+    .hero-title .outline { -webkit-text-stroke: 2px var(--hero-stroke); color: transparent; }
+    .hero-desc { font-size: 0.77rem; line-height: 1.9; color: var(--muted); max-width: 320px; margin-left: auto; }
+    .hero-desc strong { color: var(--ink); }
+
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.57rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    .section { margin-top: 64px; }
+    .section-header { display: flex; align-items: baseline; gap: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+    .section-num { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; }
+    .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.1rem, 2.2vw, 1.6rem); letter-spacing: -0.03em; color: var(--ink); }
+
+    /* FLOWCHART STEPS */
+    .steps-track { position: relative; }
+    .steps-track::before { content: ''; position: absolute; left: 27px; top: 0; bottom: 0; width: 1px; background: var(--border); }
+    .step-row { display: flex; gap: 28px; margin-bottom: 2px; position: relative; }
+    .step-row:last-child { margin-bottom: 0; }
+    .step-marker { width: 56px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 28px; }
+    .step-dot { width: 14px; height: 14px; background: var(--paper); border: 2px solid var(--border); border-radius: 50%; transition: border-color 0.3s, background 0.3s; position: relative; z-index: 1; }
+    .step-row:hover .step-dot { border-color: var(--accent); background: var(--accent); }
+    .step-content { flex: 1; background: var(--paper); border: 1px solid var(--border); padding: 28px 32px; margin-bottom: 2px; transition: background 0.2s, border-color 0.2s; }
+    .step-row:hover .step-content { border-color: rgba(230,60,30,0.3); background: var(--card-bg); }
+    .step-tag { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .step-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 12px; }
+    .step-body { font-size: 0.7rem; line-height: 1.9; color: var(--muted); }
+    .step-body strong { color: var(--ink); }
+    .step-body ul { padding-left: 0; list-style: none; margin-top: 10px; }
+    .step-body ul li { padding: 4px 0; padding-left: 14px; position: relative; }
+    .step-body ul li::before { content: '—'; position: absolute; left: 0; color: var(--accent); }
+
+    /* URGENT BOX */
+    .urgent-box { margin-top: 64px; border: 1px solid var(--accent); padding: 32px 36px; background: rgba(230,60,30,0.04); display: grid; grid-template-columns: 56px 1fr; gap: 24px; align-items: start; }
+    .urgent-icon { font-size: 2rem; line-height: 1; }
+    .urgent-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1rem; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 12px; }
+    .urgent-body { font-size: 0.7rem; line-height: 1.9; color: var(--muted); }
+    .urgent-body strong { color: var(--ink); }
+
+    /* ROLES GRID */
+    .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .role-card { background: var(--paper); padding: 30px 26px; }
+    .role-tag { display: inline-block; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); margin-bottom: 18px; }
+    .role-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 14px; }
+    .role-steps { list-style: none; padding: 0; }
+    .role-steps li { font-size: 0.68rem; line-height: 1.8; color: var(--muted); padding: 6px 0; border-bottom: 1px solid var(--border); }
+    .role-steps li:last-child { border-bottom: none; }
+    .role-steps li::before { content: '→ '; color: var(--accent); }
+
+    /* RESOURCES */
+    .resources-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .resource-card { background: var(--panel-bg); padding: 28px 28px; display: flex; gap: 20px; align-items: flex-start; }
+    .resource-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .resource-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem; color: var(--ink); margin-bottom: 6px; }
+    .resource-contact { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
+    .resource-desc { font-size: 0.65rem; line-height: 1.8; color: var(--muted); }
+
+    /* HOTLINE BANNER */
+    .hotline-banner { margin-top: 56px; background: var(--accent); padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .hotline-text { color: #fff; }
+    .hotline-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
+    .hotline-num { font-family: 'Syne', sans-serif; font-weight: 900; font-size: clamp(1.6rem, 4vw, 2.4rem); letter-spacing: -0.04em; line-height: 1; }
+    .hotline-note { font-size: 0.65rem; opacity: 0.75; margin-top: 6px; }
+    .hotline-right { text-align: right; color: #fff; }
+    .hotline-service { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; }
+    .hotline-org { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem; }
+
+    .cta-row { margin-top: 56px; padding: 36px 40px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .cta-text { font-size: 0.75rem; line-height: 1.8; color: var(--muted); max-width: 480px; }
+    .cta-text strong { color: var(--ink); font-size: 1rem; display: block; margin-bottom: 6px; font-family: 'Syne', sans-serif; font-weight: 800; }
+    .cta-buttons { display: flex; gap: 0; flex-shrink: 0; }
+    .cta-btn { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 24px; text-decoration: none; border: 1px solid var(--border); color: var(--ink); transition: background 0.25s, border-color 0.25s, color 0.25s; white-space: nowrap; }
+    .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cta-btn + .cta-btn { border-left: none; }
+    .cta-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .cta-btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+    .footer-strip { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .footer-note, .footer-model { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.06em; }
+    .footer-model { text-transform: uppercase; letter-spacing: 0.14em; }
+
+    @media (max-width: 840px) {
+      .page { padding: 0 24px 64px; } .header-strip { padding: 13px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 44px 0 36px; }
+      .hero-desc { margin-left: 0; }
+      .steps-track::before { left: 0; display: none; }
+      .step-marker { display: none; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .resources-grid { grid-template-columns: 1fr; }
+      .hotline-banner { flex-direction: column; align-items: flex-start; }
+      .hotline-right { text-align: left; }
+      .urgent-box { grid-template-columns: 1fr; gap: 12px; }
+      .cta-row { flex-direction: column; align-items: flex-start; }
+      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header-strip">
+    <a class="logo" href="bataskata.html">BATAS<span>KATA</span></a>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a class="nav-link" href="edukasi.html">Edukasi</a>
+        <a class="nav-link" href="pencegahan.html">Pencegahan</a>
+        <a class="nav-link active" href="respons.html">Respons</a>
+        <a class="nav-link" href="bataskata.html">Detektor →</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="t-icon sun">☀</span><span class="t-icon moon">☽</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="breadcrumb">
+      <a href="bataskata.html">BatasKata</a>
+      <span>—</span><span>Panduan Respons</span>
+    </div>
+
+    <section class="hero">
+      <div>
+        <p class="hero-eyebrow">Panduan Respons</p>
+        <h1 class="hero-title">
+          CARA<br>
+          <span class="outline">MERESPONS</span><br>
+          BULLYING
+        </h1>
+      </div>
+      <div>
+        <p class="hero-desc">
+          Ketika cyberbullying terjadi, respons yang tepat dan terstruktur sangat menentukan. Panduan langkah demi langkah ini dirancang untuk korban, saksi, maupun orang tua yang ingin membantu.
+        </p>
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">01 —</span>
+        <h2 class="section-title">Langkah Respons untuk Korban</h2>
+      </div>
+      <div class="steps-track">
+        <div class="step-row">
+          <div class="step-marker"><div class="step-dot"></div></div>
+          <div class="step-content">
+            <div class="step-tag">Langkah 01 — Segera</div>
+            <div class="step-title">Jangan Balas — Hentikan Kontak</div>
+            <p class="step-body">Naluri pertama mungkin ingin membalas atau membela diri, tapi ini biasanya <strong>memperburuk situasi</strong>. Pelaku mencari reaksi emosional. Dengan tidak merespons, kamu menghilangkan "bahan bakar" mereka.
+              <ul>
+                <li>Blokir akun pelaku di semua platform</li>
+                <li>Keluar dari grup atau percakapan yang toksik</li>
+                <li>Matikan notifikasi sementara untuk menjaga ketenangan</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-marker"><div class="step-dot"></div></div>
+          <div class="step-content">
+            <div class="step-tag">Langkah 02 — Dokumentasi</div>
+            <div class="step-title">Kumpulkan Bukti Sebelum Menghapus Apapun</div>
+            <p class="step-body">Bukti adalah aset terpenting jika kamu memutuskan untuk melapor. <strong>Jangan hapus apapun sebelum mendokumentasikannya.</strong>
+              <ul>
+                <li>Screenshot pesan, postingan, atau komentar beserta tanggal dan waktu</li>
+                <li>Catat nama akun, URL profil, dan platform yang digunakan</li>
+                <li>Simpan bukti di tempat aman — cloud storage atau email pribadi</li>
+                <li>Buat catatan kronologi kejadian secara tertulis</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-marker"><div class="step-dot"></div></div>
+          <div class="step-content">
+            <div class="step-tag">Langkah 03 — Laporkan</div>
+            <div class="step-title">Gunakan Fitur Lapor di Platform</div>
+            <p class="step-body">Semua platform media sosial memiliki mekanisme pelaporan. Gunakan fitur ini — ini adalah hak kamu dan konten yang melanggar <strong>akan ditindaklanjuti</strong>.
+              <ul>
+                <li>Laporkan akun/konten melalui tombol "Report" atau "Laporkan"</li>
+                <li>Pilih kategori yang paling sesuai (harassment, hate speech, dll)</li>
+                <li>Sertakan bukti atau deskripsi yang jelas saat melaporkan</li>
+                <li>Simpan nomor referensi laporan jika tersedia</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-marker"><div class="step-dot"></div></div>
+          <div class="step-content">
+            <div class="step-tag">Langkah 04 — Ceritakan</div>
+            <div class="step-title">Hubungi Orang Dewasa atau Pihak Berwenang</div>
+            <p class="step-body">Cyberbullying bukan aib dan bukan kesalahanmu. Berbagi dengan orang terpercaya adalah langkah penting — <strong>kamu tidak harus menanggung ini sendirian</strong>.
+              <ul>
+                <li>Ceritakan kepada orang tua, guru, atau konselor sekolah</li>
+                <li>Jika mengandung ancaman fisik, lapor ke polisi dengan bukti yang sudah dikumpulkan</li>
+                <li>Pertimbangkan konsultasi dengan profesional kesehatan mental</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+        <div class="step-row">
+          <div class="step-marker"><div class="step-dot"></div></div>
+          <div class="step-content">
+            <div class="step-tag">Langkah 05 — Pulihkan</div>
+            <div class="step-title">Jaga Kesehatan Mental & Batasi Paparan</div>
+            <p class="step-body">Pemulihan adalah proses, bukan peristiwa. Luangkan waktu untuk merawat dirimu dengan sengaja.
+              <ul>
+                <li>Ambil jeda dari media sosial — ini bukan kalah, ini bijaksana</li>
+                <li>Habiskan waktu dengan orang-orang yang mendukungmu secara positif</li>
+                <li>Lakukan aktivitas yang membuatmu merasa kompeten dan bahagia</li>
+                <li>Jika gejala kecemasan atau depresi muncul, segera cari bantuan profesional</li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- URGENT -->
+    <div class="urgent-box">
+      <div class="urgent-icon"></div>
+      <div>
+        <div class="urgent-title">Kapan Harus Segera Lapor ke Polisi?</div>
+        <p class="urgent-body">
+          Laporkan ke pihak berwajib jika cyberbullying melibatkan: <strong>ancaman fisik langsung, pemerasan atau blackmail, penyebaran konten intim tanpa izin (revenge porn), atau stalking yang membuat kamu merasa tidak aman.</strong>
+          <br><br>
+          Di Indonesia, tindakan ini dapat dilaporkan ke Polri melalui <strong>lapor.go.id</strong> atau datang langsung ke kantor polisi terdekat. Bawa semua bukti yang telah kamu dokumentasikan. Kamu juga bisa melapor ke <strong>KOMINFO</strong> untuk konten yang melanggar UU ITE.
+        </p>
+      </div>
+    </div>
+
+    <!-- ROLES -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">02 —</span>
+        <h2 class="section-title">Panduan Berdasarkan Peran</h2>
+      </div>
+      <div class="roles-grid">
+        <div class="role-card">
+          <div class="role-tag">Jika Kamu</div>
+          <div class="role-title">Saksi / Penonton</div>
+          <ul class="role-steps">
+            <li>Jangan like, share, atau berkomentar pada konten bullying</li>
+            <li>Kirim pesan pribadi ke korban untuk menunjukkan dukungan</li>
+            <li>Laporkan konten tersebut ke platform</li>
+            <li>Beritahu orang dewasa yang bisa membantu</li>
+            <li>Ajak teman lain untuk bersikap sama — kekuatan ada di jumlah</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-tag">Jika Kamu</div>
+          <div class="role-title">Orang Tua / Wali</div>
+          <ul class="role-steps">
+            <li>Dengarkan tanpa menghakimi — tahan urgensi untuk langsung "menyelesaikan"</li>
+            <li>Percayai cerita anak tanpa mempertanyakan kebenarannya</li>
+            <li>Bantu dokumentasi bukti bersama-sama</li>
+            <li>Hubungi pihak sekolah dan jika perlu, penegak hukum</li>
+            <li>Cari dukungan konseling untuk anak dan dirimu sendiri</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="role-tag">Jika Kamu</div>
+          <div class="role-title">Guru / Konselor</div>
+          <ul class="role-steps">
+            <li>Tangani laporan dengan serius dan kerahasiaan</li>
+            <li>Libatkan orang tua dari semua pihak yang terlibat</li>
+            <li>Terapkan kebijakan anti-bullying sekolah secara konsisten</li>
+            <li>Berikan dukungan psikologis kepada korban</li>
+            <li>Dokumentasikan semua tindakan yang diambil secara tertulis</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESOURCES -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">03 —</span>
+        <h2 class="section-title">Sumber Bantuan & Dukungan</h2>
+      </div>
+      <div class="resources-grid">
+        <div class="resource-card">
+          <div class="resource-icon"></div>
+          <div>
+            <div class="resource-name">Into The Light Indonesia</div>
+            <div class="resource-contact">119 ext 8</div>
+            <p class="resource-desc">Layanan krisis dan dukungan kesehatan mental nasional. Tersedia 24 jam untuk mereka yang membutuhkan bantuan segera.</p>
+          </div>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon"></div>
+          <div>
+            <div class="resource-name">Kementerian Kominfo</div>
+            <div class="resource-contact">aduankonten.id</div>
+            <p class="resource-desc">Portal resmi untuk melaporkan konten negatif dan pelanggaran UU ITE di internet, termasuk kasus cyberbullying.</p>
+          </div>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon"></div>
+          <div>
+            <div class="resource-name">Polri — Lapor Online</div>
+            <div class="resource-contact">lapor.go.id</div>
+            <p class="resource-desc">Platform pelaporan resmi Pemerintah Indonesia untuk berbagai kasus termasuk kejahatan siber dan ancaman online.</p>
+          </div>
+        </div>
+        <div class="resource-card">
+          <div class="resource-icon"></div>
+          <div>
+            <div class="resource-name">Yayasan Pulih</div>
+            <div class="resource-contact">(021) 788-42580</div>
+            <p class="resource-desc">Lembaga konseling dan psikologi yang menyediakan layanan dukungan mental bagi korban kekerasan termasuk cyberbullying.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="hotline-banner">
+      <div class="hotline-text">
+        <div class="hotline-label">Hotline Nasional Kesehatan Jiwa</div>
+        <div class="hotline-num">119 ext 8</div>
+        <div class="hotline-note">Gratis · 24 jam · Rahasia</div>
+      </div>
+      <div class="hotline-right">
+        <div class="hotline-service">Kementerian Kesehatan RI</div>
+        <div class="hotline-org">Sehat Jiwa Hotline</div>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="cta-text">
+        <strong>Coba Detektor BatasKata →</strong>
+        Gunakan alat deteksi berbasis AI kami untuk menganalisis teks yang kamu curigai mengandung cyberbullying.
+      </div>
+      <div class="cta-buttons">
+        <a href="pencegahan.html" class="cta-btn">← Panduan Pencegahan</a>
+        <a href="bataskata.html" class="cta-btn primary">Buka Detektor →</a>
+      </div>
+    </div>
+
+    <div class="footer-strip">
+      <span class="footer-note">© 2026 BatasKata — Proyek riset deteksi cyberbullying</span>
+      <span class="footer-model">Backend: HuggingFace Spaces · Frontend: GitHub Pages</span>
+    </div>
+  </main>
+
+  <script>
+    const html = document.documentElement;
+    const saved = localStorage.getItem('bataskata-theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('bataskata-theme', next);
+    });
+  </script>
+</body>
+</html>
