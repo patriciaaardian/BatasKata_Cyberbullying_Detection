@@ -333,7 +333,7 @@
       <div class="checklist-block" style="margin-top:1px">
         <div class="checklist-category">
           <div class="checklist-cat-header">
-            <span class="cat-icon">🔒</span>
+            <span class="cat-icon"></span>
             <span class="cat-name">Akun & Password</span>
             <span class="cat-count">5 item</span>
           </div>
@@ -362,7 +362,7 @@
         </div>
         <div class="checklist-category">
           <div class="checklist-cat-header">
-            <span class="cat-icon">👁️</span>
+            <span class="cat-icon"></span>
             <span class="cat-name">Pengaturan Privasi</span>
             <span class="cat-count">5 item</span>
           </div>
@@ -391,7 +391,7 @@
         </div>
         <div class="checklist-category">
           <div class="checklist-cat-header">
-            <span class="cat-icon">🧠</span>
+            <span class="cat-icon"></span>
             <span class="cat-name">Perilaku Online</span>
             <span class="cat-count">5 item</span>
           </div>
@@ -465,8 +465,7 @@
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('bataskata-theme', next);
-    }););
-    }
+    });
     const TOTAL = 15;
     function toggleCheck(el) {
       el.classList.toggle('checked');
