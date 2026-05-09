@@ -37,7 +37,7 @@
     
     
     
-    .nav-link.active { color: var(--accent); border-color: var(--accent); background: rgba(230,60,30,0.06); }
+    
     .theme-toggle { width: 46px; height: 26px; background: var(--toggle-track); border: 1px solid var(--border); border-radius: 13px; cursor: pointer; position: relative; transition: background 0.35s; flex-shrink: 0; }
     .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
     [data-theme="dark"] .theme-toggle::after { transform: translateX(20px); }
@@ -139,50 +139,7 @@
     .footer-note, .footer-model { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.06em; }
     .footer-model { text-transform: uppercase; letter-spacing: 0.14em; }
 
-    @media (max-width: 840px) {
-      .page { padding: 0 24px 64px; } .header-strip { padding: 13px 24px; }
-      
-      .hero { grid-template-columns: 1fr; gap: 24px; padding: 44px 0 36px; }
-      .hero-desc { margin-left: 0; }
-      .steps-track::before { left: 0; display: none; }
-      .step-marker { display: none; }
-      .roles-grid { grid-template-columns: 1fr; }
-      .resources-grid { grid-template-columns: 1fr; }
-      .hotline-banner { flex-direction: column; align-items: flex-start; }
-      .hotline-right { text-align: left; }
-      .urgent-box { grid-template-columns: 1fr; gap: 12px; }
-      .cta-row { flex-direction: column; align-items: flex-start; }
-      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
-    }
-  
-    /* NAV */
-    .nav-links { display: flex; gap: 0; }
-    .nav-link { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-right: none; transition: color 0.25s, background 0.25s, border-color 0.25s; }
-    .nav-link:last-child { border-right: 1px solid var(--border); }
-    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
-    .nav-link.active { color: var(--accent); border-color: var(--accent) !important; border-right: 1px solid var(--accent) !important; background: rgba(230,60,30,0.06); }
-    /* HAMBURGER */
-    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: 1px solid var(--border); padding: 8px; flex-shrink: 0; }
-    .hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    /* MOBILE DRAWER */
-    .mobile-nav { display: none; position: fixed; top: 52px; left: 0; right: 0; z-index: 190; background: var(--paper); border-bottom: 1px solid var(--border); flex-direction: column; }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav-link { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 16px 24px; border-bottom: 1px solid var(--border); transition: color 0.2s, background 0.2s; }
-    .mobile-nav-link:last-child { border-bottom: none; }
-    .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--accent); }
-  
-    @media (max-width: 840px) {
-      .page { padding: 0 20px 64px; }
-      .header-strip { padding: 13px 20px; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
-      .hero-desc { margin-left: 0; max-width: 100%; }
-      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
-    }
+    
   
     @media (max-width: 840px) {
       .steps-track::before { display: none; }
@@ -197,33 +154,98 @@
       .cta-buttons { width: 100%; }
       .cta-btn { flex: 1; text-align: center; }
     }
+      /* ── NAV ── */
+    .nav-links { display: flex; gap: 0; }
+    .nav-link {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border: 1px solid var(--border); border-right: none;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .nav-link:last-child { border-right: 1px solid var(--border); }
+    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .nav-link.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      border-right: 1px solid var(--accent) !important;
+      background: rgba(230,60,30,0.06);
+    }
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: 1px solid var(--border); padding: 8px;
+      flex-shrink: 0; transition: border-color 0.25s;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--ink); transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    /* mobile drawer */
+    .mobile-nav {
+      display: none; position: fixed; top: 52px; left: 0; right: 0;
+      z-index: 190; background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; transition: background 0.45s;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav-link {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      transition: color 0.2s, background 0.2s;
+    }
+    .mobile-nav-link:last-child { border-bottom: none; }
+    .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .mobile-nav-link.active { color: var(--accent); }
+  
+    @media (max-width: 840px) {
+      .page { padding: 0 20px 64px; }
+      .header-strip { padding: 13px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
+      .hero-desc { margin-left: 0; max-width: 100%; }
+      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+      .section { margin-top: 44px; }
+    }
+    @media (max-width: 840px) {
+      .steps-track::before { display: none; }
+      .step-marker { display: none; }
+      .step-content { padding: 20px; margin-bottom: 8px; }
+      .roles-grid { grid-template-columns: 1fr; }
+      .resources-grid { grid-template-columns: 1fr; }
+      .hotline-banner { flex-direction: column; align-items: flex-start; padding: 24px; gap: 12px; }
+      .hotline-right { text-align: left; }
+      .urgent-box { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
+      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
+      .cta-buttons { width: 100%; display: flex; }
+      .cta-btn { flex: 1; text-align: center; font-size: 0.65rem; padding: 12px 10px; }
+    }
   </style>
 </head>
 <body>
   <header class="header-strip">
     <a class="logo" href="index.html">BATAS<span>KATA</span></a>
     <div class="header-right">
-      <nav class="nav-links">
-        <a class="nav-link" href="edukasi.html">Edukasi</a>
-        <a class="nav-link" href="pencegahan.html">Pencegahan</a>
-        <a class="nav-link active" href="respons.html">Respons</a>
-        <a class="nav-link" href="index.html">Detektor →</a>
-      
+      <nav class="nav-links"><a class="nav-link" href="edukasi.html">Edukasi</a><a class="nav-link" href="pencegahan.html">Pencegahan</a><a class="nav-link active" href="respons.html">Respons</a><a class="nav-link" href="index.html">Detektor →</a></nav>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      </nav>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <span class="t-icon sun">☀</span><span class="t-icon moon">☽</span>
       </button>
     </div>
   </header>
   <nav class="mobile-nav" id="mobileNav">
-        <a class="mobile-nav-link" href="edukasi.html">Edukasi</a>
-        <a class="mobile-nav-link" href="pencegahan.html">Pencegahan</a>
-        <a class="mobile-nav-link active" href="respons.html">Respons</a>
-        <a class="mobile-nav-link" href="index.html">Detektor →</a>
-      </nav>
+    <a class="mobile-nav-link" href="edukasi.html">Edukasi</a>
+    <a class="mobile-nav-link" href="pencegahan.html">Pencegahan</a>
+    <a class="mobile-nav-link active" href="respons.html">Respons</a>
+    <a class="mobile-nav-link" href="index.html">Detektor →</a>
+  </nav>
 
   <main class="page">
     <div class="breadcrumb">
@@ -260,11 +282,12 @@
             <div class="step-tag">Langkah 01 — Segera</div>
             <div class="step-title">Jangan Balas — Hentikan Kontak</div>
             <p class="step-body">Naluri pertama mungkin ingin membalas atau membela diri, tapi ini biasanya <strong>memperburuk situasi</strong>. Pelaku mencari reaksi emosional. Dengan tidak merespons, kamu menghilangkan "bahan bakar" mereka.
-              <ul>
-                <li>Blokir akun pelaku di semua platform</li>
-                <li>Keluar dari grup atau percakapan yang toksik</li>
-                <li>Matikan notifikasi sementara untuk menjaga ketenangan</li>
-              </ul>
+              
+              <div class="step-tags">
+              <div class="step-tag-item">Blokir akun pelaku di semua platform</div>
+              <div class="step-tag-item">Keluar dari grup atau percakapan yang toksik</div>
+              <div class="step-tag-item">Matikan notifikasi sementara untuk menjaga ketenangan</div>
+              </div>
             </p>
           </div>
         </div>
@@ -274,12 +297,13 @@
             <div class="step-tag">Langkah 02 — Dokumentasi</div>
             <div class="step-title">Kumpulkan Bukti Sebelum Menghapus Apapun</div>
             <p class="step-body">Bukti adalah aset terpenting jika kamu memutuskan untuk melapor. <strong>Jangan hapus apapun sebelum mendokumentasikannya.</strong>
-              <ul>
-                <li>Screenshot pesan, postingan, atau komentar beserta tanggal dan waktu</li>
-                <li>Catat nama akun, URL profil, dan platform yang digunakan</li>
-                <li>Simpan bukti di tempat aman — cloud storage atau email pribadi</li>
-                <li>Buat catatan kronologi kejadian secara tertulis</li>
-              </ul>
+              
+              <div class="step-tags">
+              <div class="step-tag-item">Screenshot pesan, postingan, atau komentar beserta tanggal dan waktu</div>
+              <div class="step-tag-item">Catat nama akun, URL profil, dan platform yang digunakan</div>
+              <div class="step-tag-item">Simpan bukti di tempat aman — cloud storage atau email pribadi</div>
+              <div class="step-tag-item">Buat catatan kronologi kejadian secara tertulis</div>
+              </div>
             </p>
           </div>
         </div>
@@ -289,12 +313,13 @@
             <div class="step-tag">Langkah 03 — Laporkan</div>
             <div class="step-title">Gunakan Fitur Lapor di Platform</div>
             <p class="step-body">Semua platform media sosial memiliki mekanisme pelaporan. Gunakan fitur ini — ini adalah hak kamu dan konten yang melanggar <strong>akan ditindaklanjuti</strong>.
-              <ul>
-                <li>Laporkan akun/konten melalui tombol "Report" atau "Laporkan"</li>
-                <li>Pilih kategori yang paling sesuai (harassment, hate speech, dll)</li>
-                <li>Sertakan bukti atau deskripsi yang jelas saat melaporkan</li>
-                <li>Simpan nomor referensi laporan jika tersedia</li>
-              </ul>
+              
+              <div class="step-tags">
+              <div class="step-tag-item">Laporkan akun/konten melalui tombol "Report" atau "Laporkan"</div>
+              <div class="step-tag-item">Pilih kategori yang paling sesuai (harassment, hate speech, dll)</div>
+              <div class="step-tag-item">Sertakan bukti atau deskripsi yang jelas saat melaporkan</div>
+              <div class="step-tag-item">Simpan nomor referensi laporan jika tersedia</div>
+              </div>
             </p>
           </div>
         </div>
@@ -304,11 +329,12 @@
             <div class="step-tag">Langkah 04 — Ceritakan</div>
             <div class="step-title">Hubungi Orang Dewasa atau Pihak Berwenang</div>
             <p class="step-body">Cyberbullying bukan aib dan bukan kesalahanmu. Berbagi dengan orang terpercaya adalah langkah penting — <strong>kamu tidak harus menanggung ini sendirian</strong>.
-              <ul>
-                <li>Ceritakan kepada orang tua, guru, atau konselor sekolah</li>
-                <li>Jika mengandung ancaman fisik, lapor ke polisi dengan bukti yang sudah dikumpulkan</li>
-                <li>Pertimbangkan konsultasi dengan profesional kesehatan mental</li>
-              </ul>
+              
+              <div class="step-tags">
+              <div class="step-tag-item">Ceritakan kepada orang tua, guru, atau konselor sekolah</div>
+              <div class="step-tag-item">Jika mengandung ancaman fisik, lapor ke polisi dengan bukti yang sudah dikumpulkan</div>
+              <div class="step-tag-item">Pertimbangkan konsultasi dengan profesional kesehatan mental</div>
+              </div>
             </p>
           </div>
         </div>
@@ -318,12 +344,13 @@
             <div class="step-tag">Langkah 05 — Pulihkan</div>
             <div class="step-title">Jaga Kesehatan Mental & Batasi Paparan</div>
             <p class="step-body">Pemulihan adalah proses, bukan peristiwa. Luangkan waktu untuk merawat dirimu dengan sengaja.
-              <ul>
-                <li>Ambil jeda dari media sosial — ini bukan kalah, ini bijaksana</li>
-                <li>Habiskan waktu dengan orang-orang yang mendukungmu secara positif</li>
-                <li>Lakukan aktivitas yang membuatmu merasa kompeten dan bahagia</li>
-                <li>Jika gejala kecemasan atau depresi muncul, segera cari bantuan profesional</li>
-              </ul>
+              
+              <div class="step-tags">
+              <div class="step-tag-item">Ambil jeda dari media sosial — ini bukan kalah, ini bijaksana</div>
+              <div class="step-tag-item">Habiskan waktu dengan orang-orang yang mendukungmu secara positif</div>
+              <div class="step-tag-item">Lakukan aktivitas yang membuatmu merasa kompeten dan bahagia</div>
+              <div class="step-tag-item">Jika gejala kecemasan atau depresi muncul, segera cari bantuan profesional</div>
+              </div>
             </p>
           </div>
         </div>
@@ -332,7 +359,7 @@
 
     <!-- URGENT -->
     <div class="urgent-box">
-      <div class="urgent-icon"></div>
+      <div class="urgent-icon">⚠️</div>
       <div>
         <div class="urgent-title">Kapan Harus Segera Lapor ke Polisi?</div>
         <p class="urgent-body">
@@ -394,7 +421,7 @@
       </div>
       <div class="resources-grid">
         <div class="resource-card">
-          <div class="resource-icon"></div>
+          <div class="resource-icon">🆘</div>
           <div>
             <div class="resource-name">Into The Light Indonesia</div>
             <div class="resource-contact">119 ext 8</div>
@@ -402,7 +429,7 @@
           </div>
         </div>
         <div class="resource-card">
-          <div class="resource-icon"></div>
+          <div class="resource-icon">⚖️</div>
           <div>
             <div class="resource-name">Kementerian Kominfo</div>
             <div class="resource-contact">aduankonten.id</div>
@@ -410,7 +437,7 @@
           </div>
         </div>
         <div class="resource-card">
-          <div class="resource-icon"></div>
+          <div class="resource-icon">👮</div>
           <div>
             <div class="resource-name">Polri — Lapor Online</div>
             <div class="resource-contact">lapor.go.id</div>
@@ -418,7 +445,7 @@
           </div>
         </div>
         <div class="resource-card">
-          <div class="resource-icon"></div>
+          <div class="resource-icon">💛</div>
           <div>
             <div class="resource-name">Yayasan Pulih</div>
             <div class="resource-contact">(021) 788-42580</div>
@@ -466,6 +493,15 @@
       html.setAttribute('data-theme', next);
       localStorage.setItem('bataskata-theme', next);
     });
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    if (hamburger && mobileNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
 
     // HAMBURGER
     const hamburger = document.getElementById('hamburger');
