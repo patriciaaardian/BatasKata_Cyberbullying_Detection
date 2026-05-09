@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BatasKata — Panduan Pencegahan</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink: #0d0d0d; --paper: #f0ece3; --paper2: #e8e3d8;
+      --accent: #e63c1e; --accent2: #1a1aff;
+      --accent-glow: rgba(230,60,30,0.32); --muted: #7a7570;
+      --border: rgba(13,13,13,0.2); --card-bg: rgba(255,255,255,0.5);
+      --panel-bg: #111111; --panel-text: #f0ece3;
+      --toggle-track: #d4cfc5; --hero-stroke: #0d0d0d;
+    }
+    [data-theme="dark"] {
+      --ink: #ede9df; --paper: #0c0c0c; --paper2: #141414;
+      --accent: #ff5533; --accent2: #5555ff;
+      --accent-glow: rgba(255,85,51,0.38); --muted: #5a5a5a;
+      --border: rgba(255,255,255,0.1); --card-bg: rgba(255,255,255,0.035);
+      --panel-bg: rgba(255,255,255,0.055); --panel-text: #ede9df;
+      --toggle-track: #252525; --hero-stroke: #ede9df;
+    }
+    html { background: var(--paper); }
+    body {
+      font-family: 'Space Mono', monospace; background: var(--paper); color: var(--ink);
+      min-height: 100vh; overflow-x: hidden; transition: background 0.45s, color 0.45s;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+      background-size: 32px 32px; opacity: 0.04; pointer-events: none; z-index: 0;
+    }
+    .header-strip {
+      position: sticky; top: 0; z-index: 200; border-bottom: 1px solid var(--border);
+      padding: 13px 48px; display: flex; align-items: center; justify-content: space-between;
+      background: var(--paper); backdrop-filter: blur(16px); transition: background 0.45s, border-color 0.45s;
+    }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.1rem; letter-spacing: -0.03em; text-decoration: none; color: var(--ink); }
+    .logo span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links { display: flex; gap: 0; }
+    .nav-link { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-right: none; transition: color 0.25s, background 0.25s; }
+    .nav-link:last-child { border-right: 1px solid var(--border); }
+    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .nav-link.active { color: var(--accent); border-color: var(--accent); background: rgba(230,60,30,0.06); }
+    .theme-toggle { width: 46px; height: 26px; background: var(--toggle-track); border: 1px solid var(--border); border-radius: 13px; cursor: pointer; position: relative; transition: background 0.35s; flex-shrink: 0; }
+    .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+    [data-theme="dark"] .theme-toggle::after { transform: translateX(20px); }
+    .t-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 10px; pointer-events: none; }
+    .t-icon.sun { left: 6px; opacity: 1; } .t-icon.moon { right: 5px; opacity: 0.35; }
+    [data-theme="dark"] .t-icon.sun { opacity: 0.3; } [data-theme="dark"] .t-icon.moon { opacity: 1; }
+
+    .page { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 48px 100px; }
+
+    .hero { padding: 68px 0 48px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+    .hero-eyebrow { font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; display: flex; align-items: center; gap: 10px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--accent); }
+    .hero-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 0.9; letter-spacing: -0.05em; color: var(--ink); }
+    .hero-title .outline { -webkit-text-stroke: 2px var(--hero-stroke); color: transparent; }
+    .hero-desc { font-size: 0.77rem; line-height: 1.9; color: var(--muted); max-width: 320px; margin-left: auto; }
+    .hero-desc strong { color: var(--ink); }
+
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 0.57rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+
+    .section { margin-top: 64px; }
+    .section-header { display: flex; align-items: baseline; gap: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 36px; }
+    .section-num { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; }
+    .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.1rem, 2.2vw, 1.6rem); letter-spacing: -0.03em; color: var(--ink); }
+
+    /* PILLAR CARDS */
+    .pillar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .pillar-card { background: var(--paper); padding: 32px 28px; position: relative; overflow: hidden; }
+    .pillar-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--accent); transition: height 0.4s cubic-bezier(0.4,0,0.2,1); }
+    .pillar-card:hover::before { height: 100%; }
+    .pillar-num { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 3.5rem; letter-spacing: -0.06em; color: var(--border); line-height: 1; margin-bottom: 4px; transition: color 0.3s; }
+    .pillar-card:hover .pillar-num { color: rgba(230,60,30,0.15); }
+    .pillar-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 14px; }
+    .pillar-body { font-size: 0.7rem; line-height: 1.9; color: var(--muted); }
+    .pillar-body strong { color: var(--ink); }
+
+    /* CHECKLIST */
+    .checklist-block { border: 1px solid var(--border); }
+    .checklist-category { border-bottom: 1px solid var(--border); }
+    .checklist-category:last-child { border-bottom: none; }
+    .checklist-cat-header {
+      padding: 20px 28px; background: var(--panel-bg);
+      display: flex; align-items: center; gap: 16px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .checklist-cat-header:hover { background: rgba(255,85,51,0.06); }
+    .cat-icon { font-size: 1.1rem; }
+    .cat-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem; letter-spacing: -0.01em; color: var(--ink); flex: 1; }
+    .cat-count { font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+    .checklist-items { padding: 8px 0; }
+    .checklist-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 14px 28px; transition: background 0.15s;
+      cursor: pointer;
+    }
+    .checklist-item:hover { background: var(--card-bg); }
+    .check-box {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border: 1.5px solid var(--border); margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .checklist-item.checked .check-box { border-color: var(--accent); background: var(--accent); }
+    .check-mark { font-size: 10px; color: #fff; display: none; }
+    .checklist-item.checked .check-mark { display: block; }
+    .check-text { font-size: 0.7rem; line-height: 1.75; color: var(--muted); }
+    .checklist-item.checked .check-text { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--accent); }
+
+    /* TIPS STRIP */
+    .tips-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 64px; }
+    .tip-card { background: var(--paper); padding: 28px 24px; }
+    .tip-label { font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+    .tip-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.9rem; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 12px; }
+    .tip-body { font-size: 0.68rem; line-height: 1.85; color: var(--muted); }
+
+    /* PROGRESS */
+    .progress-bar-wrap { margin-top: 56px; padding: 36px 40px; border: 1px solid var(--border); background: var(--panel-bg); }
+    .progress-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; }
+    .progress-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; color: var(--ink); }
+    .progress-count { font-size: 0.6rem; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; }
+    .progress-track { width: 100%; height: 3px; background: rgba(255,255,255,0.07); overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: var(--accent); transition: width 0.6s cubic-bezier(0.16,1,0.3,1); box-shadow: 0 0 12px var(--accent-glow); }
+    .progress-note { margin-top: 12px; font-size: 0.6rem; color: var(--muted); }
+
+    /* CTA ROW */
+    .cta-row { margin-top: 56px; padding: 36px 40px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+    .cta-text { font-size: 0.75rem; line-height: 1.8; color: var(--muted); max-width: 480px; }
+    .cta-text strong { color: var(--ink); font-size: 1rem; display: block; margin-bottom: 6px; font-family: 'Syne', sans-serif; font-weight: 800; }
+    .cta-buttons { display: flex; gap: 0; flex-shrink: 0; }
+    .cta-btn { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 14px 24px; text-decoration: none; border: 1px solid var(--border); color: var(--ink); transition: background 0.25s, border-color 0.25s, color 0.25s; white-space: nowrap; }
+    .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cta-btn + .cta-btn { border-left: none; }
+    .cta-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .cta-btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+    .footer-strip { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    .footer-note, .footer-model { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.06em; }
+    .footer-model { text-transform: uppercase; letter-spacing: 0.14em; }
+
+    @media (max-width: 840px) {
+      .page { padding: 0 24px 64px; } .header-strip { padding: 13px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 44px 0 36px; }
+      .hero-desc { margin-left: 0; }
+      .pillar-grid { grid-template-columns: 1fr; }
+      .tips-row { grid-template-columns: 1fr; }
+      .cta-row { flex-direction: column; align-items: flex-start; }
+      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header-strip">
+    <a class="logo" href="bataskata.html">BATAS<span>KATA</span></a>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a class="nav-link" href="edukasi.html">Edukasi</a>
+        <a class="nav-link active" href="pencegahan.html">Pencegahan</a>
+        <a class="nav-link" href="respons.html">Respons</a>
+        <a class="nav-link" href="bataskata.html">Detektor →</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="t-icon sun">☀</span><span class="t-icon moon">☽</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="breadcrumb">
+      <a href="bataskata.html">BatasKata</a>
+      <span>—</span><span>Pencegahan</span>
+    </div>
+
+    <section class="hero">
+      <div>
+        <p class="hero-eyebrow">Panduan Pencegahan</p>
+        <h1 class="hero-title">
+          LINDUNGI<br>
+          <span class="outline">DIRIMU</span><br>
+          ONLINE
+        </h1>
+      </div>
+      <div>
+        <p class="hero-desc">
+          Pencegahan adalah pertahanan terbaik. Pelajari strategi konkret untuk melindungi diri, mengatur jejak digital, dan membangun lingkungan online yang lebih aman bagi semua orang.
+        </p>
+      </div>
+    </section>
+
+    <!-- PILLARS -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">01 —</span>
+        <h2 class="section-title">4 Pilar Pencegahan Cyberbullying</h2>
+      </div>
+      <div class="pillar-grid">
+        <div class="pillar-card">
+          <div class="pillar-num">01</div>
+          <div class="pillar-title">Kendalikan Privasi Digital</div>
+          <p class="pillar-body">Atur siapa yang bisa melihat postinganmu. Batasi informasi pribadi yang kamu bagikan — <strong>alamat, nomor telepon, sekolah, dan rutinitas harianmu</strong> tidak perlu ada di profil publik. Review pengaturan privasi secara berkala di setiap platform yang kamu gunakan.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-num">02</div>
+          <div class="pillar-title">Pikirkan Sebelum Posting</div>
+          <p class="pillar-body">Terapkan aturan <strong>"screenshot test"</strong> — apakah kamu akan malu jika konten ini di-screenshot dan disebarkan? Apa yang diunggah ke internet bisa bertahan selamanya. Hindari membagikan konten yang bisa disalahgunakan untuk menyerangmu di kemudian hari.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-num">03</div>
+          <div class="pillar-title">Bangun Jaringan Dukungan</div>
+          <p class="pillar-body">Jaga hubungan terbuka dengan orang tua, guru, atau orang dewasa terpercaya. Bicarakan pengalaman online kamu secara reguler. <strong>Komunitas yang kuat</strong> adalah benteng pertahanan terbaik melawan isolasi yang sering diincar pelaku cyberbullying.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-num">04</div>
+          <div class="pillar-title">Jadilah Upstander, Bukan Bystander</div>
+          <p class="pillar-body">Jika menyaksikan cyberbullying, jangan diam. Dukung korban secara langsung atau laporkan konten tersebut. <strong>Penonton yang bertindak</strong> memiliki kekuatan besar untuk menghentikan siklus perundungan online sebelum semakin parah.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHECKLIST -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">02 —</span>
+        <h2 class="section-title">Checklist Keamanan Digital</h2>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-header">
+          <span class="progress-title">Progress Keamananmu</span>
+          <span class="progress-count" id="progressCount">0 / 15 selesai</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <p class="progress-note">Centang item yang sudah kamu lakukan untuk melacak progresmu.</p>
+      </div>
+
+      <div class="checklist-block" style="margin-top:1px">
+        <div class="checklist-category">
+          <div class="checklist-cat-header">
+            <span class="cat-icon"></span>
+            <span class="cat-name">Akun & Password</span>
+            <span class="cat-count">5 item</span>
+          </div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Gunakan password unik dan kuat untuk setiap akun media sosial</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Aktifkan autentikasi dua faktor (2FA) di semua akun penting</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Jangan pernah berbagi password dengan siapapun, termasuk teman dekat</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Review aplikasi pihak ketiga yang terhubung ke akun media sosialmu</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Logout dari perangkat publik atau perangkat yang bukan milikmu</span>
+            </div>
+          </div>
+        </div>
+        <div class="checklist-category">
+          <div class="checklist-cat-header">
+            <span class="cat-icon"></span>
+            <span class="cat-name">Pengaturan Privasi</span>
+            <span class="cat-count">5 item</span>
+          </div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Set akun media sosial ke mode privat jika tidak diperlukan akun publik</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Batasi siapa yang bisa mengirim pesan langsung kepadamu</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Nonaktifkan fitur geotagging/lokasi di foto yang kamu unggah</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Jangan tampilkan nomor telepon atau email pribadi di profil publik</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Google namamu sendiri untuk melihat informasi apa yang bisa diakses publik</span>
+            </div>
+          </div>
+        </div>
+        <div class="checklist-category">
+          <div class="checklist-cat-header">
+            <span class="cat-icon"></span>
+            <span class="cat-name">Perilaku Online</span>
+            <span class="cat-count">5 item</span>
+          </div>
+          <div class="checklist-items">
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Pikirkan dampak jangka panjang sebelum mengunggah foto atau video dirimu</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Jangan merespons provokasi atau komentar negatif secara emosional</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Blokir dan laporkan akun yang mengganggu tanpa rasa bersalah</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Batasi waktu online dan kenali tanda-tanda kecanduan media sosial</span>
+            </div>
+            <div class="checklist-item" onclick="toggleCheck(this)">
+              <div class="check-box"><span class="check-mark">✓</span></div>
+              <span class="check-text">Bicarakan pengalamanmu online secara terbuka dengan orang tua atau wali</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIPS -->
+    <div class="tips-row">
+      <div class="tip-card">
+        <div class="tip-label">Tip Khusus</div>
+        <div class="tip-title">Untuk Pelajar</div>
+        <p class="tip-body">Ikuti kebijakan penggunaan teknologi di sekolahmu. Laporkan kejadian cyberbullying ke guru atau konselor — kamu tidak harus menghadapinya sendirian. Sekolah memiliki kewajiban untuk melindungimu.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">Tip Khusus</div>
+        <div class="tip-title">Untuk Orang Tua</div>
+        <p class="tip-body">Buka dialog reguler tentang kehidupan online anak tanpa bersikap menghakimi. Pelajari platform yang mereka gunakan. Tetapkan aturan penggunaan perangkat yang disepakati bersama, bukan dipaksakan.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-label">Tip Khusus</div>
+        <div class="tip-title">Untuk Pendidik</div>
+        <p class="tip-body">Integrasikan literasi digital dan kewargaan digital dalam kurikulum. Ciptakan lingkungan kelas yang aman untuk melaporkan insiden. Jadilah teladan dalam penggunaan teknologi yang bertanggung jawab.</p>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <div class="cta-text">
+        <strong>Sudah Siap Menghadapi Situasi Buruk? →</strong>
+        Pencegahan saja tidak cukup. Pelajari cara merespons dengan tepat jika cyberbullying terlanjur terjadi.
+      </div>
+      <div class="cta-buttons">
+        <a href="edukasi.html" class="cta-btn">← Kembali ke Edukasi</a>
+        <a href="respons.html" class="cta-btn primary">Panduan Respons →</a>
+      </div>
+    </div>
+
+    <div class="footer-strip">
+      <span class="footer-note">© 2026 BatasKata — Proyek riset deteksi cyberbullying</span>
+      <span class="footer-model">Backend: HuggingFace Spaces · Frontend: GitHub Pages</span>
+    </div>
+  </main>
+
+  <script>
+    const html = document.documentElement;
+    const saved = localStorage.getItem('bataskata-theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('bataskata-theme', next);
+    });
+
+    const TOTAL = 15;
+    function toggleCheck(el) {
+      el.classList.toggle('checked');
+      updateProgress();
+    }
+    function updateProgress() {
+      const done = document.querySelectorAll('.checklist-item.checked').length;
+      document.getElementById('progressCount').textContent = done + ' / ' + TOTAL + ' selesai';
+      document.getElementById('progressFill').style.width = (done / TOTAL * 100) + '%';
+    }
+  </script>
+</body>
+</html>
