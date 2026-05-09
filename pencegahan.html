@@ -465,25 +465,8 @@
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('bataskata-theme', next);
-    });
-
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav  = document.getElementById('mobileNav');
-    if (hamburger && mobileNav) {
-      hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('open');
-        mobileNav.classList.toggle('open');
-      });
+    }););
     }
-
-    // HAMBURGER
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-    });
-
     const TOTAL = 15;
     function toggleCheck(el) {
       el.classList.toggle('checked');
@@ -494,6 +477,18 @@
       document.getElementById('progressCount').textContent = done + ' / ' + TOTAL + ' selesai';
       document.getElementById('progressFill').style.width = (done / TOTAL * 100) + '%';
     }
+
+    // hamburger menu
+    (function() {
+      const hbtn = document.getElementById('hamburger');
+      const mnav = document.getElementById('mobileNav');
+      if (hbtn && mnav) {
+        hbtn.addEventListener('click', function() {
+          hbtn.classList.toggle('open');
+          mnav.classList.toggle('open');
+        });
+      }
+    })();
   </script>
 </body>
 </html>
