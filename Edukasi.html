@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BatasKata — Edukasi Cyberbullying</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #0d0d0d; --paper: #f0ece3; --paper2: #e8e3d8;
+      --accent: #e63c1e; --accent2: #1a1aff;
+      --accent-glow: rgba(230,60,30,0.32); --muted: #7a7570;
+      --border: rgba(13,13,13,0.2); --card-bg: rgba(255,255,255,0.5);
+      --panel-bg: #111111; --panel-text: #f0ece3;
+      --toggle-track: #d4cfc5; --hero-stroke: #0d0d0d;
+    }
+    [data-theme="dark"] {
+      --ink: #ede9df; --paper: #0c0c0c; --paper2: #141414;
+      --accent: #ff5533; --accent2: #5555ff;
+      --accent-glow: rgba(255,85,51,0.38); --muted: #5a5a5a;
+      --border: rgba(255,255,255,0.1); --card-bg: rgba(255,255,255,0.035);
+      --panel-bg: rgba(255,255,255,0.055); --panel-text: #ede9df;
+      --toggle-track: #252525; --hero-stroke: #ede9df;
+    }
+
+    html { background: var(--paper); }
+    body {
+      font-family: 'Space Mono', monospace;
+      background: var(--paper); color: var(--ink);
+      min-height: 100vh; overflow-x: hidden;
+      transition: background 0.45s ease, color 0.45s ease;
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.032'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+      background-size: 32px 32px; opacity: 0.04;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* HEADER */
+    .header-strip {
+      position: sticky; top: 0; z-index: 200;
+      border-bottom: 1px solid var(--border);
+      padding: 13px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--paper); backdrop-filter: blur(16px);
+      transition: background 0.45s, border-color 0.45s;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1.1rem;
+      letter-spacing: -0.03em; text-decoration: none; color: var(--ink);
+    }
+    .logo span { color: var(--accent); }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links { display: flex; gap: 0; }
+    .nav-link {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border: 1px solid var(--border);
+      border-right: none; transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .nav-link:last-child { border-right: 1px solid var(--border); }
+    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .nav-link.active { color: var(--accent); border-color: var(--accent); background: rgba(230,60,30,0.06); }
+    .theme-toggle {
+      width: 46px; height: 26px; background: var(--toggle-track);
+      border: 1px solid var(--border); border-radius: 13px;
+      cursor: pointer; position: relative;
+      transition: background 0.35s, border-color 0.35s; flex-shrink: 0;
+    }
+    .theme-toggle::after {
+      content: ''; position: absolute; top: 3px; left: 3px;
+      width: 18px; height: 18px; background: var(--accent);
+      border-radius: 50%;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    [data-theme="dark"] .theme-toggle::after { transform: translateX(20px); }
+    .t-icon { position: absolute; top: 50%; transform: translateY(-50%); font-size: 10px; pointer-events: none; }
+    .t-icon.sun { left: 6px; opacity: 1; } .t-icon.moon { right: 5px; opacity: 0.35; }
+    [data-theme="dark"] .t-icon.sun { opacity: 0.3; } [data-theme="dark"] .t-icon.moon { opacity: 1; }
+
+    /* PAGE */
+    .page { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 48px 100px; }
+
+    /* HERO */
+    .hero {
+      padding: 68px 0 48px; border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end;
+    }
+    .hero-eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 2px; background: var(--accent); }
+    .hero-title {
+      font-family: 'Syne', sans-serif; font-weight: 900;
+      font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+      line-height: 0.9; letter-spacing: -0.05em; color: var(--ink);
+    }
+    .hero-title .outline { -webkit-text-stroke: 2px var(--hero-stroke); color: transparent; }
+    .hero-desc { font-size: 0.77rem; line-height: 1.9; color: var(--muted); max-width: 320px; margin-left: auto; }
+    .hero-desc strong { color: var(--ink); }
+
+    /* BREADCRUMB */
+    .breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.57rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb-sep { color: var(--border); }
+
+    /* DEFINITION BLOCK */
+    .def-block {
+      margin-top: 56px;
+      display: grid; grid-template-columns: 280px 1fr; gap: 0;
+      border: 1px solid var(--border);
+    }
+    .def-label {
+      padding: 36px 32px; background: var(--accent);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .def-label-text {
+      font-family: 'Syne', sans-serif; font-weight: 900; font-size: 2.8rem;
+      line-height: 0.88; letter-spacing: -0.04em; color: #fff;
+      writing-mode: vertical-rl; text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+    .def-label-tag {
+      font-size: 0.52rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+    .def-content { padding: 36px 40px; background: var(--card-bg); }
+    .def-quote {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(1rem, 2vw, 1.4rem); line-height: 1.4;
+      color: var(--ink); margin-bottom: 24px;
+      border-left: 3px solid var(--accent); padding-left: 20px;
+    }
+    .def-body { font-size: 0.78rem; line-height: 2; color: var(--muted); }
+    .def-body strong { color: var(--ink); }
+
+    /* SECTION */
+    .section { margin-top: 64px; }
+    .section-header {
+      display: flex; align-items: baseline; gap: 20px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--border);
+      margin-bottom: 36px;
+    }
+    .section-num {
+      font-family: 'Syne', sans-serif; font-weight: 900; font-size: 0.7rem;
+      color: var(--accent); letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-weight: 800;
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem); letter-spacing: -0.03em; color: var(--ink);
+    }
+
+    /* CRITERIA GRID */
+    .criteria-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .criteria-cell {
+      background: var(--paper); padding: 28px 24px;
+      transition: background 0.2s;
+    }
+    .criteria-cell:hover { background: var(--card-bg); }
+    .criteria-icon {
+      font-size: 1.4rem; margin-bottom: 14px; display: block;
+      filter: grayscale(0.2);
+    }
+    .criteria-name {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.85rem;
+      letter-spacing: -0.02em; color: var(--ink); margin-bottom: 8px;
+    }
+    .criteria-desc { font-size: 0.68rem; line-height: 1.85; color: var(--muted); }
+
+    /* FORMS GRID */
+    .forms-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+    .form-row {
+      background: var(--paper);
+      display: grid; grid-template-columns: 200px 1fr 120px;
+      align-items: center; gap: 0;
+      transition: background 0.2s;
+    }
+    .form-row:hover { background: var(--card-bg); }
+    .form-tag {
+      padding: 22px 24px; border-right: 1px solid var(--border);
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.8rem;
+      letter-spacing: -0.01em; color: var(--ink);
+    }
+    .form-desc { padding: 22px 28px; font-size: 0.7rem; line-height: 1.8; color: var(--muted); border-right: 1px solid var(--border); }
+    .form-level {
+      padding: 22px 20px; text-align: center;
+      font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    .level-tinggi { color: #ff4d4d; }
+    .level-sedang { color: #f59e0b; }
+    .level-rendah { color: #4ade80; }
+    .form-header {
+      background: var(--panel-bg) !important;
+      font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted);
+    }
+    .form-header .form-tag, .form-header .form-desc, .form-header .form-level {
+      color: var(--muted); font-family: 'Space Mono', monospace; font-weight: 400; font-size: 0.52rem;
+    }
+
+    /* IMPACT STRIP */
+    .impact-strip {
+      margin-top: 64px; padding: 40px;
+      background: var(--panel-bg); border: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    }
+    .impact-cell {
+      padding: 0 32px; border-right: 1px solid rgba(255,255,255,0.07);
+      text-align: center;
+    }
+    .impact-cell:first-child { padding-left: 0; }
+    .impact-cell:last-child { border-right: none; padding-right: 0; }
+    .impact-num {
+      font-family: 'Syne', sans-serif; font-weight: 900; font-size: 2.2rem;
+      letter-spacing: -0.04em; color: var(--accent); line-height: 1;
+      margin-bottom: 8px;
+    }
+    .impact-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); line-height: 1.6; }
+
+    /* CTA ROW */
+    .cta-row {
+      margin-top: 56px; padding: 36px 40px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; gap: 32px;
+    }
+    .cta-text { font-size: 0.75rem; line-height: 1.8; color: var(--muted); max-width: 480px; }
+    .cta-text strong { color: var(--ink); font-size: 1rem; display: block; margin-bottom: 6px; font-family: 'Syne', sans-serif; font-weight: 800; }
+    .cta-buttons { display: flex; gap: 0; flex-shrink: 0; }
+    .cta-btn {
+      font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.75rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 14px 24px; text-decoration: none;
+      border: 1px solid var(--border); color: var(--ink);
+      transition: background 0.25s, border-color 0.25s, color 0.25s;
+      white-space: nowrap;
+    }
+    .cta-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .cta-btn + .cta-btn { border-left: none; }
+    .cta-btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+    .cta-btn.primary:hover { background: var(--accent); border-color: var(--accent); }
+
+    /* FOOTER */
+    .footer-strip {
+      margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-note, .footer-model { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.06em; }
+    .footer-model { text-transform: uppercase; letter-spacing: 0.14em; }
+
+    /* RESPONSIVE */
+    @media (max-width: 840px) {
+      .page { padding: 0 24px 64px; }
+      .header-strip { padding: 13px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 44px 0 36px; }
+      .hero-desc { margin-left: 0; }
+      .def-block { grid-template-columns: 1fr; }
+      .def-label { padding: 24px 28px; flex-direction: row; align-items: center; }
+      .def-label-text { writing-mode: horizontal-tb; transform: none; font-size: 1.8rem; }
+      .criteria-grid { grid-template-columns: 1fr 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .form-tag { border-right: none; border-bottom: 1px solid var(--border); }
+      .form-desc { border-right: none; border-bottom: 1px solid var(--border); }
+      .impact-strip { grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); padding: 0; }
+      .impact-cell { padding: 28px; border-right: none; text-align: left; background: var(--panel-bg); }
+      .cta-row { flex-direction: column; align-items: flex-start; }
+      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .criteria-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header-strip">
+    <a class="logo" href="bataskata.html">BATAS<span>KATA</span></a>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a class="nav-link active" href="edukasi.html">Edukasi</a>
+        <a class="nav-link" href="pencegahan.html">Pencegahan</a>
+        <a class="nav-link" href="respons.html">Respons</a>
+        <a class="nav-link" href="bataskata.html">Detektor →</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="t-icon sun">☀</span>
+        <span class="t-icon moon">☽</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="breadcrumb">
+      <a href="bataskata.html">BatasKata</a>
+      <span class="breadcrumb-sep">—</span>
+      <span>Edukasi</span>
+    </div>
+
+    <section class="hero">
+      <div>
+        <p class="hero-eyebrow">Pusat Edukasi</p>
+        <h1 class="hero-title">
+          APA ITU<br>
+          <span class="outline">CYBER</span><br>
+          BULLYING?
+        </h1>
+      </div>
+      <div>
+        <p class="hero-desc">
+          Memahami cyberbullying adalah langkah pertama untuk melawannya. Pelajari definisi, kriteria, dan berbagai bentuk yang perlu kamu kenali untuk melindungi dirimu dan orang-orang di sekitarmu.
+        </p>
+      </div>
+    </section>
+
+    <!-- DEFINITION -->
+    <div class="def-block">
+      <div class="def-label">
+        <span class="def-label-text">DEF<br>INI<br>SI</span>
+        <span class="def-label-tag">§ 01 — Pengertian</span>
+      </div>
+      <div class="def-content">
+        <p class="def-quote">
+          "Penggunaan teknologi digital untuk menyakiti, mengancam, mempermalukan, atau mengucilkan seseorang secara berulang-ulang."
+        </p>
+        <p class="def-body">
+          Cyberbullying adalah bentuk perundungan yang terjadi melalui perangkat digital seperti <strong>smartphone, komputer, dan tablet</strong> — mencakup media sosial, platform pesan, game online, dan forum internet. Berbeda dengan perundungan konvensional, cyberbullying dapat terjadi <strong>kapan saja dan di mana saja</strong>, bahkan di ruang yang seharusnya aman seperti rumah.
+          <br><br>
+          Menurut Undang-Undang ITE Indonesia, tindakan yang menyebarkan konten yang mengandung penghinaan, pencemaran nama baik, atau ancaman melalui platform digital dapat dikenai sanksi pidana. Cyberbullying bukan sekadar masalah sosial — ini adalah <strong>masalah hukum</strong>.
+        </p>
+      </div>
+    </div>
+
+    <!-- CRITERIA -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">02 —</span>
+        <h2 class="section-title">Apa yang Termasuk Cyberbullying?</h2>
+      </div>
+      <div class="criteria-grid">
+        <div class="criteria-cell">
+          <span class="criteria-icon"></span>
+          <div class="criteria-name">Berulang</div>
+          <p class="criteria-desc">Terjadi lebih dari sekali. Satu kejadian bisa menjadi insiden, tapi pola yang berulang mengindikasikan cyberbullying.</p>
+        </div>
+        <div class="criteria-cell">
+          <span class="criteria-icon"></span>
+          <div class="criteria-name">Disengaja</div>
+          <p class="criteria-desc">Pelaku sadar dan berniat menyakiti korban. Kecelakaan atau kesalahpahaman umumnya tidak masuk kategori ini.</p>
+        </div>
+        <div class="criteria-cell">
+          <span class="criteria-icon"></span>
+          <div class="criteria-name">Ketimpangan Kuasa</div>
+          <p class="criteria-desc">Ada perbedaan kekuatan — popularitas, usia, jumlah pengikut, atau kemampuan teknis — antara pelaku dan korban.</p>
+        </div>
+        <div class="criteria-cell">
+          <span class="criteria-icon"></span>
+          <div class="criteria-name">Melalui Teknologi</div>
+          <p class="criteria-desc">Terjadi di platform digital: media sosial, pesan teks, email, game online, forum, atau ruang digital lainnya.</p>
+        </div>
+        <div class="criteria-cell">
+          <span class="criteria-icon"></span>
+          <div class="criteria-name">Menyebabkan Bahaya</div>
+          <p class="criteria-desc">Berdampak negatif pada kesehatan mental, emosional, sosial, atau bahkan fisik korban.</p>
+        </div>
+        <div class="criteria-cell">
+          <span class="criteria-icon"></span>
+          <div class="criteria-name">Dapat Disaksikan</div>
+          <p class="criteria-desc">Seringkali dilakukan di depan umum atau disaksikan oleh penonton — memperparah rasa malu korban.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORMS -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-num">03 —</span>
+        <h2 class="section-title">Bentuk-Bentuk Cyberbullying</h2>
+      </div>
+      <div class="forms-list">
+        <div class="form-row form-header">
+          <div class="form-tag">Jenis</div>
+          <div class="form-desc">Deskripsi</div>
+          <div class="form-level">Tingkat Bahaya</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Flaming</div>
+          <div class="form-desc">Perang kata-kata kasar dan serangan verbal agresif secara online, biasanya di forum publik atau kolom komentar.</div>
+          <div class="form-level level-sedang">Sedang</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Harassment</div>
+          <div class="form-desc">Pengiriman pesan menyakitkan, menghina, atau mengancam secara berulang dan terus-menerus kepada seseorang.</div>
+          <div class="form-level level-tinggi">Tinggi</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Cyberstalking</div>
+          <div class="form-desc">Memantau, mengikuti, dan mengancam seseorang secara online hingga menimbulkan rasa takut yang serius.</div>
+          <div class="form-level level-tinggi">Sangat Tinggi</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Denigration</div>
+          <div class="form-desc">Menyebarkan informasi palsu, gosip, atau rumor untuk merusak reputasi dan hubungan sosial seseorang.</div>
+          <div class="form-level level-tinggi">Tinggi</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Impersonation</div>
+          <div class="form-desc">Berpura-pura menjadi orang lain secara online untuk merusak reputasi mereka atau menipu orang lain.</div>
+          <div class="form-level level-tinggi">Tinggi</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Outing & Trickery</div>
+          <div class="form-desc">Membocorkan informasi pribadi atau rahasia seseorang tanpa izin, atau mengelabui mereka agar berbagi rahasia lalu menyebarkannya.</div>
+          <div class="form-level level-tinggi">Tinggi</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Exclusion</div>
+          <div class="form-desc">Sengaja mengucilkan seseorang dari grup online, komunitas, atau percakapan digital untuk mengisolasi mereka.</div>
+          <div class="form-level level-sedang">Sedang</div>
+        </div>
+        <div class="form-row">
+          <div class="form-tag">Sexting Paksa</div>
+          <div class="form-desc">Memaksa atau mengancam seseorang untuk mengirim konten seksual, atau menyebarkan konten intim tanpa izin.</div>
+          <div class="form-level level-tinggi">Sangat Tinggi</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT STATS -->
+    <div class="impact-strip">
+      <div class="impact-cell">
+        <div class="impact-num">37%</div>
+        <div class="impact-label">Remaja Indonesia pernah mengalami cyberbullying</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-num">2×</div>
+        <div class="impact-label">Lebih berisiko mengalami depresi dibanding yang tidak jadi korban</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-num">64%</div>
+        <div class="impact-label">Korban memilih diam dan tidak melaporkan kejadian</div>
+      </div>
+      <div class="impact-cell">
+        <div class="impact-num">24/7</div>
+        <div class="impact-label">Cyberbullying bisa terjadi kapan saja, tanpa batas waktu</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-row">
+      <div class="cta-text">
+        <strong>Sudah Paham? Langkah Selanjutnya →</strong>
+        Mengenal cyberbullying baru permulaan. Pelajari cara mencegah dan merespons dengan tepat.
+      </div>
+      <div class="cta-buttons">
+        <a href="pencegahan.html" class="cta-btn">Panduan Pencegahan</a>
+        <a href="respons.html" class="cta-btn primary">Panduan Respons</a>
+      </div>
+    </div>
+
+    <div class="footer-strip">
+      <span class="footer-note">© 2026 BatasKata — Proyek riset deteksi cyberbullying</span>
+      <span class="footer-model">Backend: HuggingFace Spaces · Frontend: GitHub Pages</span>
+    </div>
+  </main>
+
+  <script>
+    const html = document.documentElement;
+    const saved = localStorage.getItem('bataskata-theme');
+    if (saved) html.setAttribute('data-theme', saved);
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('bataskata-theme', next);
+    });
+  </script>
+</body>
+</html>
