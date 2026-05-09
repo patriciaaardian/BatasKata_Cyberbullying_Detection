@@ -98,6 +98,16 @@
 
     .header-right { display: flex; align-items: center; gap: 14px; }
 
+    .nav-links { display: flex; gap: 0; }
+    .nav-link {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border: 1px solid var(--border);
+      border-right: none; transition: color 0.25s, background 0.25s;
+    }
+    .nav-link:last-child { border-right: 1px solid var(--border); }
+    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
+
     .tag {
       font-size: 0.58rem; letter-spacing: 0.18em;
       text-transform: uppercase; color: var(--muted);
@@ -472,6 +482,7 @@
     @media (max-width: 840px) {
       .page { padding: 0 24px 64px; }
       .header-strip { padding: 13px 24px; }
+      .nav-links { display: none; }
 
       .hero { grid-template-columns: 1fr; gap: 28px; padding: 44px 0 36px; }
       .hero-desc { margin-left: 0; }
@@ -501,6 +512,11 @@
   <header class="header-strip">
     <a class="logo" href="#">BATAS<span>KATA</span></a>
     <div class="header-right">
+      <nav class="nav-links">
+        <a class="nav-link" href="edukasi.html">Edukasi</a>
+        <a class="nav-link" href="pencegahan.html">Pencegahan</a>
+        <a class="nav-link" href="respons.html">Respons</a>
+      </nav>
       <span class="tag">IndoBERT v1.0</span>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <span class="t-icon sun">☀</span>
