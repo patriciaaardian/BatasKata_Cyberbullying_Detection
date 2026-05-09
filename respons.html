@@ -141,19 +141,7 @@
 
     
   
-    @media (max-width: 840px) {
-      .steps-track::before { display: none; }
-      .step-marker { display: none; }
-      .step-content { padding: 20px; }
-      .roles-grid { grid-template-columns: 1fr; }
-      .resources-grid { grid-template-columns: 1fr; }
-      .hotline-banner { flex-direction: column; align-items: flex-start; gap: 12px; padding: 24px; }
-      .hotline-right { text-align: left; }
-      .urgent-box { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
-      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
-      .cta-buttons { width: 100%; }
-      .cta-btn { flex: 1; text-align: center; }
-    }
+    
       /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
     .nav-link {
@@ -202,6 +190,16 @@
     .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
     .mobile-nav-link.active { color: var(--accent); }
   
+    
+    
+  
+    /* ── GLOBAL OVERFLOW FIX ── */
+    html, body { overflow-x: hidden; max-width: 100%; }
+    .page { box-sizing: border-box; width: 100%; }
+    /* ── RESOURCE CARD TEXT FIXES ── */
+    .resource-name { color: #f0ece3 !important; }
+    .resource-desc { color: rgba(240,236,227,0.5) !important; }
+  
     @media (max-width: 840px) {
       .page { padding: 0 20px 64px; }
       .header-strip { padding: 13px 20px; }
@@ -211,8 +209,6 @@
       .hero-desc { margin-left: 0; max-width: 100%; }
       .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
       .section { margin-top: 44px; }
-    }
-    @media (max-width: 840px) {
       .steps-track::before { display: none; }
       .step-marker { display: none; }
       .step-content { padding: 20px; margin-bottom: 8px; }
@@ -221,9 +217,10 @@
       .hotline-banner { flex-direction: column; align-items: flex-start; padding: 24px; gap: 12px; }
       .hotline-right { text-align: left; }
       .urgent-box { grid-template-columns: 1fr; gap: 12px; padding: 24px; }
-      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
-      .cta-buttons { width: 100%; display: flex; }
-      .cta-btn { flex: 1; text-align: center; font-size: 0.65rem; padding: 12px 10px; }
+      .cta-row { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; }
+      .cta-buttons { width: 100%; display: flex; flex-direction: column; gap: 0; }
+      .cta-btn { width: 100%; text-align: center; font-size: 0.65rem; padding: 13px 10px; border-right: 1px solid var(--border) !important; }
+      .cta-btn + .cta-btn { border-top: none; border-left: 1px solid var(--border); }
     }
   </style>
 </head>
