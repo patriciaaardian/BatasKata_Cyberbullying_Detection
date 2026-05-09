@@ -476,29 +476,59 @@
     /* ── RESPONSIVE ── */
     
 
+    
+  
+    
     @media (max-width: 480px) {
       .hero-title { font-size: clamp(2.5rem, 12vw, 3.4rem); }
-      .tag { display: none; }
     }
-  
-    /* NAV */
+      /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
-    .nav-link { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-right: none; transition: color 0.25s, background 0.25s, border-color 0.25s; }
+    .nav-link {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border: 1px solid var(--border); border-right: none;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
     .nav-link:last-child { border-right: 1px solid var(--border); }
     .nav-link:hover { color: var(--ink); background: var(--card-bg); }
-    .nav-link.active { color: var(--accent); border-color: var(--accent) !important; border-right: 1px solid var(--accent) !important; background: rgba(230,60,30,0.06); }
-    /* HAMBURGER */
-    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: 1px solid var(--border); padding: 8px; flex-shrink: 0; }
-    .hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
+    .nav-link.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      border-right: 1px solid var(--accent) !important;
+      background: rgba(230,60,30,0.06);
+    }
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: 1px solid var(--border); padding: 8px;
+      flex-shrink: 0; transition: border-color 0.25s;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--ink); transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    }
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    /* MOBILE DRAWER */
-    .mobile-nav { display: none; position: fixed; top: 52px; left: 0; right: 0; z-index: 190; background: var(--paper); border-bottom: 1px solid var(--border); flex-direction: column; }
+    /* mobile drawer */
+    .mobile-nav {
+      display: none; position: fixed; top: 52px; left: 0; right: 0;
+      z-index: 190; background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; transition: background 0.45s;
+    }
     .mobile-nav.open { display: flex; }
-    .mobile-nav-link { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 16px 24px; border-bottom: 1px solid var(--border); transition: color 0.2s, background 0.2s; }
+    .mobile-nav-link {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      transition: color 0.2s, background 0.2s;
+    }
     .mobile-nav-link:last-child { border-bottom: none; }
-    .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--accent); }
+    .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .mobile-nav-link.active { color: var(--accent); }
   
     @media (max-width: 840px) {
       .page { padding: 0 20px 64px; }
@@ -508,22 +538,23 @@
       .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
       .hero-desc { margin-left: 0; max-width: 100%; }
       .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+      .section { margin-top: 44px; }
     }
-  
     @media (max-width: 840px) {
       .stats-row { flex-wrap: wrap; }
-      .stat-cell { flex: 0 0 50%; border-bottom: 1px solid var(--border); }
-      .stat-cell:nth-child(2) { border-right: none; }
+      .stat-cell { flex: 0 0 50%; border-bottom: 1px solid var(--border); padding: 18px 0 !important; }
+      .stat-cell:nth-child(2) { border-right: none; padding-left: 16px !important; }
+      .stat-cell:nth-child(4) { border-bottom: none; border-right: none; padding-left: 16px !important; }
       .stat-cell:nth-child(3) { border-bottom: none; }
-      .stat-cell:nth-child(4) { border-bottom: none; border-right: none; }
       .main-card { grid-template-columns: 1fr; }
       .card-left { border-right: none; border-bottom: 1px solid var(--border); padding: 24px; }
       .card-right { padding: 24px; }
       .result-area { min-height: 200px; }
-      .tag { display: none; }
+      .result-verdict { font-size: 1.55rem; }
     }
     @media (max-width: 480px) {
       .hero-title { font-size: clamp(2.5rem, 12vw, 3.4rem); }
+      .tag { display: none; }
     }
   </style>
 </head>
@@ -532,12 +563,11 @@
   <header class="header-strip">
     <a class="logo" href="#">BATAS<span>KATA</span></a>
     <div class="header-right">
-      <nav class="nav-links">
-        <a class="nav-link" href="edukasi.html">Edukasi</a>
-        <a class="nav-link" href="pencegahan.html">Pencegahan</a>
-        <a class="nav-link" href="respons.html">Respons</a>
-      </nav>
+      <nav class="nav-links"><a class="nav-link" href="edukasi.html">Edukasi</a><a class="nav-link" href="pencegahan.html">Pencegahan</a><a class="nav-link" href="respons.html">Respons</a><a class="nav-link" href="index.html">Detektor →</a></nav>
       <span class="tag">IndoBERT v1.0</span>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <span class="t-icon sun">☀</span>
         <span class="t-icon moon">☽</span>
@@ -545,11 +575,11 @@
     </div>
   </header>
   <nav class="mobile-nav" id="mobileNav">
-        <a class="mobile-nav-link" href="edukasi.html">Edukasi</a>
-        <a class="mobile-nav-link" href="pencegahan.html">Pencegahan</a>
-        <a class="mobile-nav-link" href="respons.html">Respons</a>
-        <a class="mobile-nav-link" href="bataskata.html">Detektor →</a>
-      </nav>
+    <a class="mobile-nav-link" href="edukasi.html">Edukasi</a>
+    <a class="mobile-nav-link" href="pencegahan.html">Pencegahan</a>
+    <a class="mobile-nav-link" href="respons.html">Respons</a>
+    <a class="mobile-nav-link" href="index.html">Detektor →</a>
+  </nav>
 
   <main class="page">
 
@@ -688,6 +718,15 @@
       html.setAttribute('data-theme', next);
       localStorage.setItem('bataskata-theme', next);
     });
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    if (hamburger && mobileNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
 
     // HAMBURGER
     const hamburger = document.getElementById('hamburger');
