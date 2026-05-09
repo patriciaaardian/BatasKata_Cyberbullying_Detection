@@ -64,7 +64,7 @@
     
     
     
-    .nav-link.active { color: var(--accent); border-color: var(--accent); background: rgba(230,60,30,0.06); }
+    
     .theme-toggle {
       width: 46px; height: 26px; background: var(--toggle-track);
       border: 1px solid var(--border); border-radius: 13px;
@@ -260,28 +260,60 @@
 
     /* RESPONSIVE */
     
+    
+  
+    
     @media (max-width: 480px) {
       .criteria-grid { grid-template-columns: 1fr; }
+      .impact-strip { grid-template-columns: 1fr; }
     }
-  
-    /* NAV */
+      /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
-    .nav-link { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-right: none; transition: color 0.25s, background 0.25s, border-color 0.25s; }
+    .nav-link {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border: 1px solid var(--border); border-right: none;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
     .nav-link:last-child { border-right: 1px solid var(--border); }
     .nav-link:hover { color: var(--ink); background: var(--card-bg); }
-    .nav-link.active { color: var(--accent); border-color: var(--accent) !important; border-right: 1px solid var(--accent) !important; background: rgba(230,60,30,0.06); }
-    /* HAMBURGER */
-    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: 1px solid var(--border); padding: 8px; flex-shrink: 0; }
-    .hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
+    .nav-link.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      border-right: 1px solid var(--accent) !important;
+      background: rgba(230,60,30,0.06);
+    }
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: 1px solid var(--border); padding: 8px;
+      flex-shrink: 0; transition: border-color 0.25s;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--ink); transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    }
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    /* MOBILE DRAWER */
-    .mobile-nav { display: none; position: fixed; top: 52px; left: 0; right: 0; z-index: 190; background: var(--paper); border-bottom: 1px solid var(--border); flex-direction: column; }
+    /* mobile drawer */
+    .mobile-nav {
+      display: none; position: fixed; top: 52px; left: 0; right: 0;
+      z-index: 190; background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; transition: background 0.45s;
+    }
     .mobile-nav.open { display: flex; }
-    .mobile-nav-link { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 16px 24px; border-bottom: 1px solid var(--border); transition: color 0.2s, background 0.2s; }
+    .mobile-nav-link {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      transition: color 0.2s, background 0.2s;
+    }
     .mobile-nav-link:last-child { border-bottom: none; }
-    .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--accent); }
+    .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .mobile-nav-link.active { color: var(--accent); }
   
     @media (max-width: 840px) {
       .page { padding: 0 20px 64px; }
@@ -291,22 +323,22 @@
       .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
       .hero-desc { margin-left: 0; max-width: 100%; }
       .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+      .section { margin-top: 44px; }
     }
-  
     @media (max-width: 840px) {
       .def-block { grid-template-columns: 1fr; }
-      .def-label { padding: 24px; flex-direction: row; align-items: center; gap: 16px; }
-      .def-label-text { font-size: 2rem; }
+      .def-label { flex-direction: row; align-items: center; gap: 16px; padding: 20px 24px; }
+      .def-label-text { font-size: 1.8rem; }
       .def-content { padding: 24px; }
       .criteria-grid { grid-template-columns: 1fr 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .form-tag { border-right: none; border-bottom: 1px solid var(--border); }
       .form-desc { border-right: none; border-bottom: 1px solid var(--border); }
-      .impact-strip { grid-template-columns: 1fr 1fr; padding: 0; background: var(--border); }
-      .impact-cell { padding: 24px 20px; background: var(--panel-bg); border-right: none; text-align: left; }
+      .impact-strip { grid-template-columns: 1fr 1fr; padding: 0; background: var(--border); gap: 1px; }
+      .impact-cell { background: var(--panel-bg); border-right: none; text-align: left; padding: 22px 18px; }
       .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
-      .cta-buttons { width: 100%; }
-      .cta-btn { flex: 1; text-align: center; }
+      .cta-buttons { width: 100%; display: flex; }
+      .cta-btn { flex: 1; text-align: center; font-size: 0.65rem; padding: 12px 10px; }
     }
     @media (max-width: 480px) {
       .criteria-grid { grid-template-columns: 1fr; }
@@ -318,16 +350,10 @@
   <header class="header-strip">
     <a class="logo" href="index.html">BATAS<span>KATA</span></a>
     <div class="header-right">
-      <nav class="nav-links">
-        <a class="nav-link active" href="edukasi.html">Edukasi</a>
-        <a class="nav-link" href="pencegahan.html">Pencegahan</a>
-        <a class="nav-link" href="respons.html">Respons</a>
-        <a class="nav-link" href="index.html">Detektor →</a>
-      
+      <nav class="nav-links"><a class="nav-link active" href="edukasi.html">Edukasi</a><a class="nav-link" href="pencegahan.html">Pencegahan</a><a class="nav-link" href="respons.html">Respons</a><a class="nav-link" href="index.html">Detektor →</a></nav>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      </nav>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <span class="t-icon sun">☀</span>
         <span class="t-icon moon">☽</span>
@@ -335,11 +361,11 @@
     </div>
   </header>
   <nav class="mobile-nav" id="mobileNav">
-        <a class="mobile-nav-link active" href="edukasi.html">Edukasi</a>
-        <a class="mobile-nav-link" href="pencegahan.html">Pencegahan</a>
-        <a class="mobile-nav-link" href="respons.html">Respons</a>
-        <a class="mobile-nav-link" href="index.html">Detektor →</a>
-      </nav>
+    <a class="mobile-nav-link active" href="edukasi.html">Edukasi</a>
+    <a class="mobile-nav-link" href="pencegahan.html">Pencegahan</a>
+    <a class="mobile-nav-link" href="respons.html">Respons</a>
+    <a class="mobile-nav-link" href="index.html">Detektor →</a>
+  </nav>
 
   <main class="page">
     <div class="breadcrumb">
@@ -390,32 +416,32 @@
       </div>
       <div class="criteria-grid">
         <div class="criteria-cell">
-          <span class="criteria-icon"></span>
+          <span class="criteria-icon">🔁</span>
           <div class="criteria-name">Berulang</div>
           <p class="criteria-desc">Terjadi lebih dari sekali. Satu kejadian bisa menjadi insiden, tapi pola yang berulang mengindikasikan cyberbullying.</p>
         </div>
         <div class="criteria-cell">
-          <span class="criteria-icon"></span>
+          <span class="criteria-icon">⚡</span>
           <div class="criteria-name">Disengaja</div>
           <p class="criteria-desc">Pelaku sadar dan berniat menyakiti korban. Kecelakaan atau kesalahpahaman umumnya tidak masuk kategori ini.</p>
         </div>
         <div class="criteria-cell">
-          <span class="criteria-icon"></span>
+          <span class="criteria-icon">⚖️</span>
           <div class="criteria-name">Ketimpangan Kuasa</div>
           <p class="criteria-desc">Ada perbedaan kekuatan — popularitas, usia, jumlah pengikut, atau kemampuan teknis — antara pelaku dan korban.</p>
         </div>
         <div class="criteria-cell">
-          <span class="criteria-icon"></span>
+          <span class="criteria-icon">📱</span>
           <div class="criteria-name">Melalui Teknologi</div>
           <p class="criteria-desc">Terjadi di platform digital: media sosial, pesan teks, email, game online, forum, atau ruang digital lainnya.</p>
         </div>
         <div class="criteria-cell">
-          <span class="criteria-icon"></span>
+          <span class="criteria-icon">😣</span>
           <div class="criteria-name">Menyebabkan Bahaya</div>
           <p class="criteria-desc">Berdampak negatif pada kesehatan mental, emosional, sosial, atau bahkan fisik korban.</p>
         </div>
         <div class="criteria-cell">
-          <span class="criteria-icon"></span>
+          <span class="criteria-icon">👁️</span>
           <div class="criteria-name">Dapat Disaksikan</div>
           <p class="criteria-desc">Seringkali dilakukan di depan umum atau disaksikan oleh penonton — memperparah rasa malu korban.</p>
         </div>
@@ -477,6 +503,7 @@
       </div>
     </section>
 
+    <!-- IMPACT STATS -->
     <div class="impact-strip">
       <div class="impact-cell">
         <div class="impact-num">37%</div>
@@ -496,9 +523,10 @@
       </div>
     </div>
 
+    <!-- CTA -->
     <div class="cta-row">
       <div class="cta-text">
-        <strong>Sudah Paham? Langkah Selanjutnya </strong>
+        <strong>Sudah Paham? Langkah Selanjutnya →</strong>
         Mengenal cyberbullying baru permulaan. Pelajari cara mencegah dan merespons dengan tepat.
       </div>
       <div class="cta-buttons">
@@ -523,6 +551,16 @@
       localStorage.setItem('bataskata-theme', next);
     });
 
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    if (hamburger && mobileNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
+
+    // HAMBURGER
     const hamburger = document.getElementById('hamburger');
     const mobileNav = document.getElementById('mobileNav');
     hamburger.addEventListener('click', () => {
