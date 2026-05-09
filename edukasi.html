@@ -263,10 +263,7 @@
     
   
     
-    @media (max-width: 480px) {
-      .criteria-grid { grid-template-columns: 1fr; }
-      .impact-strip { grid-template-columns: 1fr; }
-    }
+    
       /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
     .nav-link {
@@ -315,6 +312,14 @@
     .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
     .mobile-nav-link.active { color: var(--accent); }
   
+    
+    
+    
+  
+    /* ── GLOBAL OVERFLOW FIX ── */
+    html, body { overflow-x: hidden; max-width: 100%; }
+    .page { box-sizing: border-box; width: 100%; }
+  
     @media (max-width: 840px) {
       .page { padding: 0 20px 64px; }
       .header-strip { padding: 13px 20px; }
@@ -324,8 +329,6 @@
       .hero-desc { margin-left: 0; max-width: 100%; }
       .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
       .section { margin-top: 44px; }
-    }
-    @media (max-width: 840px) {
       .def-block { grid-template-columns: 1fr; }
       .def-label { flex-direction: row; align-items: center; gap: 16px; padding: 20px 24px; }
       .def-label-text { font-size: 1.8rem; }
@@ -336,9 +339,10 @@
       .form-desc { border-right: none; border-bottom: 1px solid var(--border); }
       .impact-strip { grid-template-columns: 1fr 1fr; padding: 0; background: var(--border); gap: 1px; }
       .impact-cell { background: var(--panel-bg); border-right: none; text-align: left; padding: 22px 18px; }
-      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
-      .cta-buttons { width: 100%; display: flex; }
-      .cta-btn { flex: 1; text-align: center; font-size: 0.65rem; padding: 12px 10px; }
+      .cta-row { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px; }
+      .cta-buttons { width: 100%; display: flex; flex-direction: column; gap: 0; }
+      .cta-btn { width: 100%; text-align: center; font-size: 0.65rem; padding: 13px 10px; border-right: 1px solid var(--border) !important; }
+      .cta-btn + .cta-btn { border-top: none; border-left: 1px solid var(--border); }
     }
     @media (max-width: 480px) {
       .criteria-grid { grid-template-columns: 1fr; }
