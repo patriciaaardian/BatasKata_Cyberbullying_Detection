@@ -13,7 +13,7 @@
       --accent: #e63c1e; --accent2: #1a1aff;
       --accent-glow: rgba(230,60,30,0.32); --muted: #7a7570;
       --border: rgba(13,13,13,0.2); --card-bg: rgba(255,255,255,0.5);
-      --panel-bg: #111111; --panel-text: #f0ece3;
+      --panel-bg: #1a1a1a; --panel-text: #f0ece3;
       --toggle-track: #d4cfc5; --hero-stroke: #0d0d0d;
     }
     [data-theme="dark"] {
@@ -51,7 +51,7 @@
     
     
     
-    .nav-link.active { color: var(--accent); border-color: var(--accent); background: rgba(230,60,30,0.06); }
+    
     .theme-toggle { width: 46px; height: 26px; background: var(--toggle-track); border: 1px solid var(--border); border-radius: 13px; cursor: pointer; position: relative; transition: background 0.35s; flex-shrink: 0; }
     .theme-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--accent); border-radius: 50%; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
     [data-theme="dark"] .theme-toggle::after { transform: translateX(20px); }
@@ -152,45 +152,7 @@
     .footer-note, .footer-model { font-size: 0.58rem; color: var(--muted); letter-spacing: 0.06em; }
     .footer-model { text-transform: uppercase; letter-spacing: 0.14em; }
 
-    @media (max-width: 840px) {
-      .page { padding: 0 24px 64px; } .header-strip { padding: 13px 24px; }
-      
-      .hero { grid-template-columns: 1fr; gap: 24px; padding: 44px 0 36px; }
-      .hero-desc { margin-left: 0; }
-      .pillar-grid { grid-template-columns: 1fr; }
-      .tips-row { grid-template-columns: 1fr; }
-      .cta-row { flex-direction: column; align-items: flex-start; }
-      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
-    }
-  
-    /* NAV */
-    .nav-links { display: flex; gap: 0; }
-    .nav-link { font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 6px 14px; border: 1px solid var(--border); border-right: none; transition: color 0.25s, background 0.25s, border-color 0.25s; }
-    .nav-link:last-child { border-right: 1px solid var(--border); }
-    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
-    .nav-link.active { color: var(--accent); border-color: var(--accent) !important; border-right: 1px solid var(--accent) !important; background: rgba(230,60,30,0.06); }
-    /* HAMBURGER */
-    .hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 36px; height: 36px; cursor: pointer; background: none; border: 1px solid var(--border); padding: 8px; flex-shrink: 0; }
-    .hamburger span { display: block; width: 100%; height: 1.5px; background: var(--ink); transition: transform 0.3s, opacity 0.3s; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    /* MOBILE DRAWER */
-    .mobile-nav { display: none; position: fixed; top: 52px; left: 0; right: 0; z-index: 190; background: var(--paper); border-bottom: 1px solid var(--border); flex-direction: column; }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav-link { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 16px 24px; border-bottom: 1px solid var(--border); transition: color 0.2s, background 0.2s; }
-    .mobile-nav-link:last-child { border-bottom: none; }
-    .mobile-nav-link:hover, .mobile-nav-link.active { color: var(--accent); }
-  
-    @media (max-width: 840px) {
-      .page { padding: 0 20px 64px; }
-      .header-strip { padding: 13px 20px; }
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
-      .hero-desc { margin-left: 0; max-width: 100%; }
-      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
-    }
+    
   
     @media (max-width: 840px) {
       .pillar-grid { grid-template-columns: 1fr; }
@@ -200,33 +162,105 @@
       .cta-buttons { width: 100%; }
       .cta-btn { flex: 1; text-align: center; }
     }
+      /* ── NAV ── */
+    .nav-links { display: flex; gap: 0; }
+    .nav-link {
+      font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border: 1px solid var(--border); border-right: none;
+      transition: color 0.25s, background 0.25s, border-color 0.25s;
+    }
+    .nav-link:last-child { border-right: 1px solid var(--border); }
+    .nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .nav-link.active {
+      color: var(--accent);
+      border-color: var(--accent);
+      border-right: 1px solid var(--accent) !important;
+      background: rgba(230,60,30,0.06);
+    }
+    /* hamburger */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      gap: 5px; width: 36px; height: 36px; cursor: pointer;
+      background: none; border: 1px solid var(--border); padding: 8px;
+      flex-shrink: 0; transition: border-color 0.25s;
+    }
+    .hamburger span {
+      display: block; width: 100%; height: 1.5px;
+      background: var(--ink); transition: transform 0.3s, opacity 0.3s, background 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    /* mobile drawer */
+    .mobile-nav {
+      display: none; position: fixed; top: 52px; left: 0; right: 0;
+      z-index: 190; background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column; transition: background 0.45s;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav-link {
+      font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 16px 24px; border-bottom: 1px solid var(--border);
+      transition: color 0.2s, background 0.2s;
+    }
+    .mobile-nav-link:last-child { border-bottom: none; }
+    .mobile-nav-link:hover { color: var(--ink); background: var(--card-bg); }
+    .mobile-nav-link.active { color: var(--accent); }
+  
+    @media (max-width: 840px) {
+      .page { padding: 0 20px 64px; }
+      .header-strip { padding: 13px 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { grid-template-columns: 1fr; gap: 24px; padding: 40px 0 32px; }
+      .hero-desc { margin-left: 0; max-width: 100%; }
+      .footer-strip { flex-direction: column; gap: 10px; text-align: center; }
+      .section { margin-top: 44px; }
+    }
+    @media (max-width: 840px) {
+      .pillar-grid { grid-template-columns: 1fr; }
+      .tips-row { grid-template-columns: 1fr; }
+      .progress-bar-wrap { padding: 24px 20px; }
+      .cta-row { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px; }
+      .cta-buttons { width: 100%; display: flex; }
+      .cta-btn { flex: 1; text-align: center; font-size: 0.65rem; padding: 12px 10px; }
+      .checklist-cat-header { padding: 16px 20px; }
+      .checklist-item { padding: 12px 20px; }
+    }
+  
+    /* Light mode: panel-bg sections need light text */
+    .checklist-cat-header { color: var(--panel-text); }
+    .cat-name { color: var(--panel-text) !important; }
+    .cat-icon { color: var(--panel-text); }
+    .cat-count { color: rgba(240,236,227,0.5); }
+    .checklist-cat-header:hover { background: rgba(255,85,51,0.15) !important; }
+    /* resource cards stay dark */
+    .resource-card { background: var(--panel-bg); }
+    .resource-name { color: var(--panel-text) !important; }
   </style>
 </head>
 <body>
   <header class="header-strip">
     <a class="logo" href="index.html">BATAS<span>KATA</span></a>
     <div class="header-right">
-      <nav class="nav-links">
-        <a class="nav-link" href="edukasi.html">Edukasi</a>
-        <a class="nav-link active" href="pencegahan.html">Pencegahan</a>
-        <a class="nav-link" href="respons.html">Respons</a>
-        <a class="nav-link" href="index.html">Detektor →</a>
-      
+      <nav class="nav-links"><a class="nav-link" href="edukasi.html">Edukasi</a><a class="nav-link active" href="pencegahan.html">Pencegahan</a><a class="nav-link" href="respons.html">Respons</a><a class="nav-link" href="index.html">Detektor →</a></nav>
       <button class="hamburger" id="hamburger" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
-      </nav>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
         <span class="t-icon sun">☀</span><span class="t-icon moon">☽</span>
       </button>
     </div>
   </header>
   <nav class="mobile-nav" id="mobileNav">
-        <a class="mobile-nav-link" href="edukasi.html">Edukasi</a>
-        <a class="mobile-nav-link active" href="pencegahan.html">Pencegahan</a>
-        <a class="mobile-nav-link" href="respons.html">Respons</a>
-        <a class="mobile-nav-link" href="index.html">Detektor →</a>
-      </nav>
+    <a class="mobile-nav-link" href="edukasi.html">Edukasi</a>
+    <a class="mobile-nav-link active" href="pencegahan.html">Pencegahan</a>
+    <a class="mobile-nav-link" href="respons.html">Respons</a>
+    <a class="mobile-nav-link" href="index.html">Detektor →</a>
+  </nav>
 
   <main class="page">
     <div class="breadcrumb">
@@ -299,7 +333,7 @@
       <div class="checklist-block" style="margin-top:1px">
         <div class="checklist-category">
           <div class="checklist-cat-header">
-            <span class="cat-icon"></span>
+            <span class="cat-icon">🔒</span>
             <span class="cat-name">Akun & Password</span>
             <span class="cat-count">5 item</span>
           </div>
@@ -328,7 +362,7 @@
         </div>
         <div class="checklist-category">
           <div class="checklist-cat-header">
-            <span class="cat-icon"></span>
+            <span class="cat-icon">👁️</span>
             <span class="cat-name">Pengaturan Privasi</span>
             <span class="cat-count">5 item</span>
           </div>
@@ -357,7 +391,7 @@
         </div>
         <div class="checklist-category">
           <div class="checklist-cat-header">
-            <span class="cat-icon"></span>
+            <span class="cat-icon">🧠</span>
             <span class="cat-name">Perilaku Online</span>
             <span class="cat-count">5 item</span>
           </div>
@@ -408,7 +442,7 @@
 
     <div class="cta-row">
       <div class="cta-text">
-        <strong>Sudah Siap Menghadapi Situasi Buruk? </strong>
+        <strong>Sudah Siap Menghadapi Situasi Buruk? →</strong>
         Pencegahan saja tidak cukup. Pelajari cara merespons dengan tepat jika cyberbullying terlanjur terjadi.
       </div>
       <div class="cta-buttons">
@@ -432,6 +466,15 @@
       html.setAttribute('data-theme', next);
       localStorage.setItem('bataskata-theme', next);
     });
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav  = document.getElementById('mobileNav');
+    if (hamburger && mobileNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileNav.classList.toggle('open');
+      });
+    }
 
     // HAMBURGER
     const hamburger = document.getElementById('hamburger');
