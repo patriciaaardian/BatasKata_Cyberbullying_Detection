@@ -64,7 +64,6 @@
     .section-num { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.1em; }
     .section-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.1rem, 2.2vw, 1.6rem); letter-spacing: -0.03em; color: var(--ink); }
 
-    /* FLOWCHART STEPS */
     .steps-track { position: relative; }
     .steps-track::before { content: ''; position: absolute; left: 27px; top: 0; bottom: 0; width: 1px; background: var(--border); }
     .step-row { display: flex; gap: 28px; margin-bottom: 2px; position: relative; }
@@ -90,14 +89,12 @@
     .step-row:hover .step-tag-item { border-left-color: rgba(230,60,30,0.4); }
     .step-tag-item::before { content: '—'; color: var(--accent); flex-shrink: 0; font-size: 0.6rem; }
 
-    /* URGENT BOX */
     .urgent-box { margin-top: 64px; border: 1px solid var(--accent); padding: 32px 36px; background: rgba(230,60,30,0.04); display: grid; grid-template-columns: 56px 1fr; gap: 24px; align-items: start; }
     .urgent-icon { font-size: 2rem; line-height: 1; }
     .urgent-title { font-family: 'Syne', sans-serif; font-weight: 900; font-size: 1rem; letter-spacing: -0.02em; color: var(--accent); margin-bottom: 12px; }
     .urgent-body { font-size: 0.7rem; line-height: 1.9; color: var(--muted); }
     .urgent-body strong { color: var(--ink); }
 
-    /* ROLES GRID */
     .roles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
     .role-card { background: var(--paper); padding: 30px 26px; }
     .role-tag { display: inline-block; font-size: 0.52rem; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); color: var(--muted); margin-bottom: 18px; }
@@ -107,7 +104,6 @@
     .role-steps li:last-child { border-bottom: none; }
     .role-steps li::before { content: '→ '; color: var(--accent); }
 
-    /* RESOURCES */
     .resources-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
     .resource-card { background: var(--panel-bg); padding: 28px 28px; display: flex; gap: 20px; align-items: flex-start; }
     .resource-icon { font-size: 1.5rem; flex-shrink: 0; }
@@ -115,7 +111,6 @@
     .resource-contact { font-size: 0.65rem; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; font-weight: 700; }
     .resource-desc { font-size: 0.65rem; line-height: 1.8; color: var(--muted); }
 
-    /* HOTLINE BANNER */
     .hotline-banner { margin-top: 56px; background: var(--accent); padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
     .hotline-text { color: #fff; }
     .hotline-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; }
@@ -142,7 +137,6 @@
     
   
     
-      /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
     .nav-link {
       font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -158,7 +152,6 @@
       border-right: 1px solid var(--accent) !important;
       background: rgba(230,60,30,0.06);
     }
-    /* hamburger */
     .hamburger {
       display: none; flex-direction: column; justify-content: center;
       gap: 5px; width: 36px; height: 36px; cursor: pointer;
@@ -172,7 +165,6 @@
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    /* mobile drawer */
     .mobile-nav {
       display: none; position: fixed; top: 52px; left: 0; right: 0;
       z-index: 190; background: var(--paper);
@@ -193,10 +185,8 @@
     
     
   
-    /* ── GLOBAL OVERFLOW FIX ── */
     html, body { overflow-x: hidden; max-width: 100%; }
     .page { box-sizing: border-box; width: 100%; }
-    /* ── RESOURCE CARD TEXT FIXES ── */
     .resource-name { color: #f0ece3 !important; }
     .resource-desc { color: rgba(240,236,227,0.5) !important; }
   
@@ -266,7 +256,6 @@
       </div>
     </section>
 
-    <!-- STEPS -->
     <section class="section">
       <div class="section-header">
         <span class="section-num">01 —</span>
@@ -354,9 +343,8 @@
       </div>
     </section>
 
-    <!-- URGENT -->
     <div class="urgent-box">
-      <div class="urgent-icon">⚠️</div>
+      <div class="urgent-icon"></div>
       <div>
         <div class="urgent-title">When Should You Report to the Police Immediately?</div>
         <p class="urgent-body">
@@ -367,7 +355,6 @@
       </div>
     </div>
 
-    <!-- ROLES -->
     <section class="section">
       <div class="section-header">
         <span class="section-num">02 —</span>
@@ -410,7 +397,6 @@
       </div>
     </section>
 
-    <!-- RESOURCES -->
     <section class="section">
       <div class="section-header">
         <span class="section-num">03 —</span>
@@ -418,7 +404,7 @@
       </div>
       <div class="resources-grid">
         <div class="resource-card">
-          <div class="resource-icon">🆘</div>
+          <div class="resource-icon"></div>
           <div>
             <div class="resource-name">Into The Light Indonesia</div>
             <div class="resource-contact">119 ext 8</div>
@@ -426,7 +412,7 @@
           </div>
         </div>
         <div class="resource-card">
-          <div class="resource-icon">⚖️</div>
+          <div class="resource-icon"></div>
           <div>
             <div class="resource-name">Kementerian Kominfo</div>
             <div class="resource-contact">aduankonten.id</div>
@@ -434,7 +420,7 @@
           </div>
         </div>
         <div class="resource-card">
-          <div class="resource-icon">👮</div>
+          <div class="resource-icon"></div>
           <div>
             <div class="resource-name">Polri — Lapor Online</div>
             <div class="resource-contact">lapor.go.id</div>
@@ -442,7 +428,7 @@
           </div>
         </div>
         <div class="resource-card">
-          <div class="resource-icon">💛</div>
+          <div class="resource-icon"></div>
           <div>
             <div class="resource-name">Yayasan Pulih</div>
             <div class="resource-contact">(021) 788-42580</div>
@@ -491,7 +477,6 @@
       localStorage.setItem('bataskata-theme', next);
     });
 
-    // hamburger menu
     (function() {
       const hbtn = document.getElementById('hamburger');
       const mnav = document.getElementById('mobileNav');
