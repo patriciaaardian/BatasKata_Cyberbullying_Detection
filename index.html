@@ -56,7 +56,6 @@
       transition: background 0.45s ease, color 0.45s ease;
     }
 
-    /* noise */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -64,7 +63,6 @@
       pointer-events: none; z-index: 0;
     }
 
-    /* subtle dot grid */
     body::after {
       content: '';
       position: fixed; inset: 0;
@@ -75,7 +73,6 @@
       transition: opacity 0.4s;
     }
 
-    /* ── HEADER ── */
     .header-strip {
       position: sticky; top: 0; z-index: 200;
       border-bottom: 1px solid var(--border);
@@ -111,7 +108,6 @@
       transition: border-color 0.4s, color 0.4s;
     }
 
-    /* ── THEME TOGGLE ── */
     .theme-toggle {
       width: 46px; height: 26px;
       background: var(--toggle-track);
@@ -142,14 +138,12 @@
     [data-theme="dark"] .t-icon.sun  { opacity: 0.3; }
     [data-theme="dark"] .t-icon.moon { opacity: 1; }
 
-    /* ── PAGE ── */
     .page {
       position: relative; z-index: 1;
       max-width: 1040px; margin: 0 auto;
       padding: 0 48px 100px;
     }
 
-    /* ── HERO ── */
     .hero {
       padding: 68px 0 48px;
       border-bottom: 1px solid var(--border);
@@ -189,7 +183,6 @@
     }
     .hero-desc strong { color: var(--ink); font-weight: 700; transition: color 0.4s; }
 
-    /* ── STATS ── */
     .stats-row {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -212,7 +205,6 @@
       margin-top: 5px; transition: color 0.3s;
     }
 
-    /* ── MAIN CARD ── */
     .main-card {
       margin-top: 56px;
       display: grid; grid-template-columns: 1fr 385px;
@@ -239,7 +231,6 @@
       transition: background 0.45s;
     }
 
-    /* corner accent lines */
     .card-right::before,
     .card-right::after {
       content: '';
@@ -289,7 +280,6 @@
       transition: color 0.3s;
     }
 
-    /* ── BUTTON ── */
     .submit-btn {
       margin-top: 28px; width: 100%;
       font-family: 'Syne', sans-serif;
@@ -333,7 +323,6 @@
       transition: color 0.3s;
     }
 
-    /* ── PANEL ── */
     .panel-title {
       font-size: 0.56rem; letter-spacing: 0.24em;
       text-transform: uppercase;
@@ -346,7 +335,6 @@
       min-height: 240px;
     }
 
-    /* ── STATE PANELS ── */
     .state-panel {
       position: absolute; inset: 0;
       display: flex; flex-direction: column;
@@ -362,7 +350,6 @@
       pointer-events: auto;
     }
 
-    /* IDLE */
     .idle-icon {
       width: 50px; height: 50px;
       border: 1px solid rgba(240,236,227,0.12);
@@ -380,7 +367,6 @@
       line-height: 2;
     }
 
-    /* LOADING */
     .lottie-wrap {
       width: 120px; height: 120px;
       margin-bottom: 16px;
@@ -401,7 +387,6 @@
       75% { content: '...'; }
     }
 
-    /* RESULT */
     .result-icon-wrap {
       width: 68px; height: 68px; margin-bottom: 16px;
     }
@@ -454,13 +439,11 @@
     .confidence-num.safe   { color: #4ade80; }
     .confidence-num.danger { color: #ff4d4d; }
 
-    /* ERROR */
     .error-msg {
       font-size: 0.68rem; color: #ff6b6b;
       line-height: 1.85; white-space: pre-wrap;
     }
 
-    /* ── FOOTER ── */
     .footer-strip {
       margin-top: 56px; padding-top: 20px;
       border-top: 1px solid var(--border);
@@ -473,14 +456,12 @@
     }
     .footer-model { text-transform: uppercase; letter-spacing: 0.14em; }
 
-    /* ── RESPONSIVE ── */
     
 
     
   
     
     
-      /* ── NAV ── */
     .nav-links { display: flex; gap: 0; }
     .nav-link {
       font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase;
@@ -496,7 +477,7 @@
       border-right: 1px solid var(--accent) !important;
       background: rgba(230,60,30,0.06);
     }
-    /* hamburger */
+
     .hamburger {
       display: none; flex-direction: column; justify-content: center;
       gap: 5px; width: 36px; height: 36px; cursor: pointer;
@@ -510,7 +491,6 @@
     .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-    /* mobile drawer */
     .mobile-nav {
       display: none; position: fixed; top: 52px; left: 0; right: 0;
       z-index: 190; background: var(--paper);
@@ -532,7 +512,6 @@
     
     
   
-    /* ── GLOBAL OVERFLOW FIX ── */
     html, body { overflow-x: hidden; max-width: 100%; }
     .page { box-sizing: border-box; width: 100%; }
   
@@ -651,7 +630,6 @@
 
         <div class="result-area">
 
-          <!-- IDLE -->
           <div class="state-panel active" id="idleState">
             <div class="idle-icon">
               <svg viewBox="0 0 24 24">
@@ -667,7 +645,6 @@
             </p>
           </div>
 
-          <!-- LOADING -->
           <div class="state-panel" id="loadingState">
             <div class="lottie-wrap">
               <dotlottie-player
@@ -682,7 +659,6 @@
             <p class="loading-label">Processing<span class="loading-dots"></span></p>
           </div>
 
-          <!-- RESULT -->
           <div class="state-panel" id="resultState">
             <div class="result-icon-wrap" id="resultIconWrap"></div>
             <div class="result-verdict" id="resultVerdict">—</div>
@@ -694,7 +670,6 @@
             <div class="confidence-num" id="confidenceNum">—</div>
           </div>
 
-          <!-- ERROR -->
           <div class="state-panel" id="errorState">
             <p class="error-msg" id="errorMsg">—</p>
           </div>
@@ -711,7 +686,6 @@
   </main>
 
   <script>
-    /* ── THEME TOGGLE ── */
     const html    = document.documentElement;
     const toggleBtn = document.getElementById('themeToggle');
     const saved   = localStorage.getItem('bataskata-theme');
@@ -722,12 +696,10 @@
       html.setAttribute('data-theme', next);
       localStorage.setItem('bataskata-theme', next);
     });
-    /* ── CHAR COUNT ── */
     function updateCharCount(el) {
       document.getElementById('charCount').textContent = el.value.length;
     }
 
-    /* ── STATE MACHINE ── */
     const STATE_IDS = ['idleState','loadingState','resultState','errorState'];
 
     function setState(active) {
@@ -741,7 +713,6 @@
       });
     }
 
-    /* ── LOTTIE RESULT ICON (SVG fallback if Lottie fails) ── */
     function setResultIcon(type) {
       const wrap = document.getElementById('resultIconWrap');
       wrap.innerHTML = '';
@@ -771,7 +742,6 @@
       wrap.appendChild(player);
     }
 
-    /* ── MAIN API CALL ── */
     async function checkBullying() {
       const text = document.getElementById("inputText").value.trim();
       const btn  = document.getElementById("btnCheck");
@@ -837,7 +807,6 @@
       if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) checkBullying();
     });
 
-    // hamburger menu
     (function() {
       const hbtn = document.getElementById('hamburger');
       const mnav = document.getElementById('mobileNav');
